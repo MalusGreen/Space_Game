@@ -17,6 +17,7 @@ public abstract class Enemy extends Ship{
 	 * 			and moves towards him or her.
 	 * 		damage()
 	 * 			If hit by bullet lose a health... dies.
+	 * 			removes bullet.
 	 * 			If hits user, loses health, dies, 
 	 * 			and damages user.
 	 * 		draw()

@@ -117,6 +117,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		keys();
 		repaint();
 	}
+	
+	//KeyListener
+	//KeyCode
 	public void keys(){
 		if(up){
 			ship.accel();
@@ -131,7 +134,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			ship.shoot();
 		}
 	}
-	//KeyListener
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode()==KeyEvent.VK_W){
@@ -141,6 +144,15 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			right=true;
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_A){
+			left=true;
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_UP){
+			up=true;
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_RIGHT){
+			right=true;
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_LEFT){
 			left=true;
 		}
 		else if(e.getKeyCode()==32){
@@ -159,6 +171,15 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_A){
 			System.out.println("left");
+			left=false;
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_UP){
+			up=false;
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_RIGHT){
+			right=false;
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_LEFT){
 			left=false;
 		}
 		else if(e.getKeyCode()==32){

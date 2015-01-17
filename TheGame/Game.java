@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import ship.Enemy;
-import ship.RingShip;
+import ship.RingWraith;
 import ship.Ship;
 
 
@@ -54,25 +54,31 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	//Generates Enemies
 	public void addRingShip(int n){
 		for(int i=0;i<n;i++){
-			enemies.add(new RingShip(Math.random()*getWidth()+200,Math.random()*getHeight()+500));
+			enemies.add(new RingWraith(Math.random()*getWidth()+200,Math.random()*getHeight()+500));
 		}
 	}
 	
 	//Draws and updates
 	public void drawEnemies(Graphics g){
+		
+		//Test Method... adds RingWraiths
 		if(enemies.isEmpty()){
 			addRingShip(10);
 		}
 		else{
+			// TODO Auto-generated method stub
+			//Try to condense this all to one method.
 			for(int i=0;i<enemies.size();i++){
+				//Change to alive boolean.
 				if(enemies.get(i).getHealth()<=-10){
 					enemies.remove(i);
 					i--;
 					continue;
 				}
-				enemies.get(i).target(ship);
-				enemies.get(i).damage(ship);
-				enemies.get(i).update();
+				//Change to become one method
+				else if(enemies.get(i).isAlive()){
+					enemies.get(i).update(ship);
+				}
 				enemies.get(i).drawShip(g);
 			}
 		}
@@ -111,6 +117,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		keys();
 		repaint();
 	}
+	
+	//KeyListener
+	//KeyCode
 	public void keys(){
 		if(up){
 			ship.accel();
@@ -125,10 +134,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			ship.shoot();
 		}
 	}
-	//KeyListener
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		if(e.getKeyCode()==KeyEvent.VK_W){
 			up=true;
 		}
@@ -138,13 +146,21 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		else if(e.getKeyCode()==KeyEvent.VK_A){
 			left=true;
 		}
+		else if(e.getKeyCode()==KeyEvent.VK_UP){
+			up=true;
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_RIGHT){
+			right=true;
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_LEFT){
+			left=true;
+		}
 		else if(e.getKeyCode()==32){
 			space=true;
 		}
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		if(e.getKeyCode()==KeyEvent.VK_W){
 			System.out.println("left");
 			up=false;
@@ -157,13 +173,21 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			System.out.println("left");
 			left=false;
 		}
+		else if(e.getKeyCode()==KeyEvent.VK_UP){
+			up=false;
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_RIGHT){
+			right=false;
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_LEFT){
+			left=false;
+		}
 		else if(e.getKeyCode()==32){
 			space=false;
 		}
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 }
