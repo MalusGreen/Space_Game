@@ -1,23 +1,41 @@
 package ship;
 import java.awt.Graphics;
-import java.util.ArrayList;
-
-import ship.weapons.*;
-import ship.weapons.ammo.Bullet;
 
 public abstract class Enemy extends Ship{
+	/* Enemy has all the functions of Ship, 
+	 * the only difference that behaviors are 
+	 * programmed into enemies.
+	 * 
+	 * target- for user co-ordinates
+	 * avoid - for avoiding bullets
+	 * damage- for checking bullet and self collision
+	 * draw  - differs for each Enemy
+	 * 
+	 * RingWraith:
+	 * 		target() 
+	 * 			finds the user 
+	 * 			and moves towards him or her.
+	 * 		damage()
+	 * 			If hit by bullet lose a health... dies.
+	 * 			If hits user, loses health, dies, 
+	 * 			and damages user.
+	 * 		draw()
+	 * 			Draws a circle most of the time.
+	 * 			Death animation is a spreading square.
+	 */
 	public double tx, ty;
 	public Enemy(double x, double y){
 		super();
 		super.x=x;
 		super.y=y;
 	}
-	public void update(){
-		double a=tx-x, b=ty-y;
-		double hyp=Math.sqrt(a*a+b*b);
-		dx=a*speed/hyp;
-		dy=b*speed/hyp;
+	public void update(Ship user){
+		// TODO Auto-generated method stub
+		//Movement
+		target(user);
+		damage(user);
 		super.update();
+		
 	}
 	@Override
 	public abstract void drawShip(Graphics g);

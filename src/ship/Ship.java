@@ -2,7 +2,6 @@ package ship;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
@@ -12,6 +11,23 @@ import ship.weapons.*;
 
 
 public class Ship {
+	/* Ship class is the basic class 
+	 * of which different ship types can be.
+	 * 
+	 * Depending on customization Ship can have different weapons
+	 * from the weapons class, which will shoot different types
+	 * of ammo.
+	 * 
+	 * shoot()  -fires weapons
+	 * turn()   -turns the ship
+	 * accel()  -accelerates the ship in the direction of var angl
+	 * damage() -TODO damage calc
+	 * draw()   -draws ship and ship components.
+	 * 			-TODO rotation
+	 * update() -updates position of ship
+	 * 			-updates status of ship
+	 * 				-alive
+	 */
 	protected double angle;
 	protected double dx,dy;
 	protected double speed;
@@ -20,11 +36,17 @@ public class Ship {
 	protected int size;
 	protected int accel;
 	protected int health;
+	protected boolean alive;
 	
+
+
 	protected ArrayList<Weapon> weapons=new ArrayList<Weapon>();
 	
 	public Ship(){
+		
+		//Movement vars
 		angle=Math.toRadians(90);
+		
 		x=100;
 		y=100;
 		dx=0;
@@ -32,11 +54,12 @@ public class Ship {
 		sx=0;
 		sy=0;
 		
+		//Attributes.
 		size=3;
 		speed=3;
 		accel=0;
 		health=100;
-		
+		alive=true;
 		weapons.add(new MachineGun());
 	}
 	
@@ -49,8 +72,9 @@ public class Ship {
 //		g2d.draw(rect1);
 //		g2d.translate(rect1.x+(rect1.width/2), rect1.y+(rect1.height/2));
 		
-		
-		if(health>0){
+
+		// TODO Auto-generated method stub
+		if(alive){
 			drawShip(g);
 		}
 	}
@@ -59,6 +83,9 @@ public class Ship {
 		y+=dy;
 		dx-=dx*0.01;
 		dy-=dy*0.01;
+		if(health<=0){
+			alive=false;
+		}
 	}
 	
 	//Draw all the modules on your ship.
@@ -133,6 +160,14 @@ public class Ship {
 	
 	public void setHealth(int health){
 		this.health=health;
+	}
+	
+	public boolean isAlive() {
+		return alive;
+	}
+
+	public void setAlive(boolean alive) {
+		this.alive = alive;
 	}
 
 	public double getDx() {

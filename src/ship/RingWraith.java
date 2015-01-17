@@ -7,16 +7,22 @@ import java.util.ArrayList;
 import ship.weapons.Weapon;
 import ship.weapons.ammo.Bullet;
 
-public class RingShip extends Enemy{
-	public RingShip(double x, double y){
+public class RingWraith extends Enemy{
+	public RingWraith(double x, double y){
+		//Attributes are mostly 1.
 		super(x, y);
 		speed=1;
 		health=1;
 	}
 	@Override
 	public void target(Ship user){
+		//Targets user.
 		tx=user.getX();
 		ty=user.getY();
+		double a=tx-x, b=ty-y;
+		double hyp=Math.sqrt(a*a+b*b);
+		dx=a*speed/hyp;
+		dy=b*speed/hyp;
 	}
 	@Override
 	public void avoid(Ship user){
@@ -24,6 +30,7 @@ public class RingShip extends Enemy{
 	}
 	@Override
 	public void drawShip(Graphics g) {
+		// TODO Auto-generated method stub
 		if(health<=0){
 			g.setColor(Color.red);
 			g.drawRect((int)x-size, (int)y-size, health*-1,health*-1);
@@ -37,9 +44,9 @@ public class RingShip extends Enemy{
 	}
 	@Override
 	public void damage(Ship user) {
+		//For now it only gets one weapon.
 		ArrayList<Bullet> bullets=user.getWeapons().get(0).getBullets();
 		if(user.getRect().intersects(this.getRect())){
-			System.out.println(user.getHealth());
 			user.setHealth(user.getHealth()-20);
 			health=0;
 		}
