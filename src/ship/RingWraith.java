@@ -38,9 +38,9 @@ public class RingWraith extends Enemy{
 		double tAngle = targetVector.get(3);
 		System.out.println(tAngle);
 		if (tAngle+20>oAngle && tAngle-20<oAngle){
-			T=0.05;
-			
-			//if (theta+20>oAngle && theta-20<oAngle
+			T=0.05; //scaling T if you go directly towards them
+		} else if (tAngle+5>oAngle && tAngle-5<oAngle){
+			T = 0; //down to 0 if the angle gets close enough
 		}
 		//double T = 10;
 		double xs = targetVector.get(1);
