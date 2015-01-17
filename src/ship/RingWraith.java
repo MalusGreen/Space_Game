@@ -10,6 +10,7 @@ import ship.weapons.ammo.Bullet;
 
 public class RingWraith extends Enemy{
 	private double tyo=0, txo=0, tyn=0, txn=0;
+	private final double c = 0.35;
 	
 	public RingWraith(double x, double y){
 		super(x, y);
@@ -32,12 +33,21 @@ public class RingWraith extends Enemy{
 		Vector<Double> targetVector = getVector();
 		//T= Dc
 		//idk how c works, turning parameter apparently? I took rad/frame divided by accel/frame
-		double T = getDistance()*0.5;
+		double T = getDistance()*c;
+		double oAngle = getNewAngle(dx, dy);
+		double tAngle = targetVector.get(3);
+		System.out.println(tAngle);
+		if (tAngle+20>oAngle && tAngle-20<oAngle){
+			T=0.05;
+			
+			//if (theta+20>oAngle && theta-20<oAngle
+		}
 		//double T = 10;
 		double xs = targetVector.get(1);
 		double ys = targetVector.get(2);
 		double fx = txn+xs*T;
 		double fy = tyn+ys*T;
+		
 		tx = fx;
 		ty = fy;
 		double a=tx-x, b=ty-y;
@@ -58,14 +68,19 @@ public class RingWraith extends Enemy{
 		tv.add(tSpeed);
 		tv.add(xspeed);
 		tv.add(yspeed);
-		double tAngle = Math.atan(yspeed/xspeed);
-		boolean ypos = yspeed>0;
-		boolean xpos = xspeed>0;
-		if ((ypos && !xpos) || (!ypos&& xpos)){
-			tAngle+=180;
-		}
+		double tAngle = getNewAngle(xspeed, yspeed);
 		tv.add(tAngle);
 		return tv;
+	}
+	
+	private double getNewAngle(double xs, double ys){
+		double angle = Math.atan(xs/ys);
+		boolean ypos = xs>0;
+		boolean xpos = ys>0;
+		if ((ypos && !xpos) || (!ypos&& xpos)){
+			angle+=180;
+		}
+		return angle;
 	}
 	
 	private double getDistance(){
