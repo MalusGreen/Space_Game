@@ -50,10 +50,8 @@ public class RingWraith extends Enemy{
 		
 		tx = fx;
 		ty = fy;
-		double a=tx-x, b=ty-y;
-		double hyp=Math.sqrt(a*a+b*b);
-		dx=a*speed/hyp;
-		dy=b*speed/hyp;
+		
+		
 		System.out.println("Target:" +tx+","+ty);
 		
 		
