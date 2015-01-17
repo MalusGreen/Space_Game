@@ -76,7 +76,7 @@ public class RingWraith extends Enemy{
 		boolean ypos = xs>0;
 		boolean xpos = ys>0;
 		if ((ypos && !xpos) || (!ypos&& xpos)){
-			angle+=180;
+			angle+=Math.PI;
 		}
 		return angle;
 	}

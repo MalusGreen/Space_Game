@@ -47,12 +47,10 @@ public abstract class Enemy extends Ship{
 		double ddy=b*speed/hyp;
 		System.out.println("sides: "+a+","+b);
 		
-		double tangle = Math.atan(ddx/ddy);
+		double tangle = Math.atan(a/b);
 		double dangle = angle-tangle;
 		System.out.println("fucking angle is "+tangle);
 		
-		if (dangle>Math.PI) dangle-=2*Math.PI;
-		if (dangle<-Math.PI)dangle+=2*Math.PI;
 		
 		boolean ypos = ddx>0;
 		boolean xpos = ddy>0;
@@ -61,6 +59,8 @@ public abstract class Enemy extends Ship{
 			dangle+=Math.PI;
 		}
 		
+		if (dangle>Math.PI) dangle-=2*Math.PI;
+		if (dangle<-Math.PI)dangle+=2*Math.PI;
 		
 		
 		System.out.println("dangle:"+dangle);
@@ -68,7 +68,7 @@ public abstract class Enemy extends Ship{
 		System.out.println("dx: "+ddx);
 		System.out.println("dy: "+ddy);
 		
-		boolean up = true, right = (dangle>0), left = (dangle<0);
+		boolean up = true, right = (dangle+0.1>0), left = (dangle-0.1<0);
 		
 		
 		if(right){
