@@ -1,11 +1,11 @@
-package ship;
+package world.ship;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import ship.weapons.*;
+import world.ship.weapons.*;
 
 
 
@@ -37,8 +37,8 @@ public class Ship {
 	protected int accel;
 	protected int health;
 	protected boolean alive;
-	
-
+//	protected Ship target;
+//	protected ArrayList<Terrain> map;
 
 	protected ArrayList<Weapon> weapons=new ArrayList<Weapon>();
 	
@@ -61,7 +61,12 @@ public class Ship {
 		health=100;
 		alive=true;
 		weapons.add(new MachineGun());
+		weapons.add(new MissleLauncher());
 	}
+	public void setWorld(){
+		
+	}
+	//Targets closest Enemy
 	
 	public void draw(Graphics g){
 //		Attempts at rotation. 
@@ -78,13 +83,17 @@ public class Ship {
 			drawShip(g);
 		}
 	}
-	public void update(){
+//	public void update(ArrayList<Enemy> enemies, ArrayList<Terrain> map){
+	public void update(ArrayList<Ship> enemies){
 		x+=dx;
 		y+=dy;
 		dx-=dx*0.01;
 		dy-=dy*0.01;
 		if(health<=0){
 			alive=false;
+		}
+		for(Weapon i: weapons){
+			i.update(x, y, enemies);
 		}
 	}
 	
@@ -96,7 +105,7 @@ public class Ship {
 				
 		//Engine.draw(g);
 		
-		
+		//Draw target box around target.
 		//Weapons
 		for(Weapon i: weapons){
 			i.draw(g, x, y, angle);
@@ -115,8 +124,10 @@ public class Ship {
 		g.drawRect((int)x-size,(int)y-size,size*2,size*2);
 		
 		//Health
+		g.setColor(Color.red);
+		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x+size*1.5), (int)y-6);
 		g.setColor(Color.green);
-		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x+size*1.5*health/100), (int)y-6);
+		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x-size*1.5+size*3*health/100), (int)y-6);
 	} 
 	
 	public void damage(Ship user){
