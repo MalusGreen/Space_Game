@@ -37,6 +37,9 @@ public class Ship {
 	protected int accel;
 	protected int health;
 	protected boolean alive;
+	
+	//TODO change this mechanic.
+	protected int weapon;
 //	protected Ship target;
 //	protected ArrayList<Terrain> map;
 
@@ -144,11 +147,19 @@ public class Ship {
 		}
 	}
 	
+	public void switchWeapon(int weapon){
+		this.weapon=weapon;
+	}
+	
 	//Creates bullets in weapons. Possibly other types of ammo will be used as well.
 	public void shoot(){
-		for(Weapon i:weapons){
-			i.fire(x-sx,y-sy,angle);
-		}
+//		for(Weapon i:weapons){
+//			i.fire(x-sx,y-sy,angle);
+//		}
+		
+		//TODO
+		
+		weapons.get(weapon).fire(x-sx,y-sy,angle);
 	}
 	
 	//Updates angle.

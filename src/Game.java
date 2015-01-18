@@ -162,6 +162,12 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		else if(e.getKeyCode()==32){
 			space=true;
 		}
+		else if(e.getKeyCode()==KeyEvent.VK_1){
+			ship.switchWeapon(0);
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_2){
+			ship.switchWeapon(1);
+		}
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
