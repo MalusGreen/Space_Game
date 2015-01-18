@@ -1,5 +1,6 @@
-package ship;
+package world.ship;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 public abstract class Enemy extends Ship{
 	/* Enemy has all the functions of Ship, 
@@ -25,6 +26,7 @@ public abstract class Enemy extends Ship{
 	 * 			Death animation is a spreading square.
 	 */
 	public double tx, ty;
+	public static int right;
 	public Enemy(double x, double y){
 		super();
 		super.x=x;
@@ -35,7 +37,9 @@ public abstract class Enemy extends Ship{
 		//Movement
 		target(user);
 		damage(user);
-		super.update();
+		ArrayList<Ship> temp=new ArrayList<Ship>();
+		temp.add(user);
+		super.update(temp);
 		
 	}
 	@Override

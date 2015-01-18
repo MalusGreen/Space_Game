@@ -6,7 +6,7 @@ public class GameFrame extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Game game;
+	static Game game;
 	
 	public static void main(String args[]){
 		new GameFrame("Space Game").setVisible(true);
