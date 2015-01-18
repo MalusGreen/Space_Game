@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import world.ship.weapons.Weapon;
 import world.ship.weapons.ammo.Ammo;
-import world.ship.weapons.ammo.Bullet;
 
 public class RingWraith extends Enemy{
 	public RingWraith(double x, double y){

@@ -45,13 +45,12 @@ public class Ship {
 
 	protected ArrayList<Weapon> weapons=new ArrayList<Weapon>();
 	
-	public Ship(){
-		
+	public Ship(double x, double y){
 		//Movement vars
 		angle=Math.toRadians(90);
 		
-		x=100;
-		y=100;
+		this.x=x;
+		this.y=y;
 		dx=0;
 		dy=0;
 		sx=0;

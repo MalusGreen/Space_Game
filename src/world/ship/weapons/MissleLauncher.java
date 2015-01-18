@@ -3,7 +3,6 @@ package world.ship.weapons;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import world.ship.Enemy;
 import world.ship.Ship;
 import world.ship.weapons.ammo.*;
 

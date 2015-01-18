@@ -3,10 +3,8 @@ package world.ship.weapons;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import world.ship.Enemy;
-import world.ship.Ship;
-import world.ship.weapons.ammo.Ammo;
-import world.ship.weapons.ammo.Bullet;
+import world.ship.*;
+import world.ship.weapons.ammo.*;
 
 public abstract class Weapon {
 	protected int size;

@@ -29,8 +29,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		super();
 		setSize(1000,800);
 		timer=new Timer(10,this);
-		
-		ship=new Ship();
+		ship=new Ship(100,100);
 		enemies=new ArrayList<Ship>();
 		setBackground(new Color(0, 0, 0));
 		setBackground(50);
@@ -97,7 +96,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	public void setBackground(int size) {
 		pixels = new Pixel[size];
 		pixels_2 = new Pixel[size];
-		grid=new Grid(new Color(0,255,0),getWidth()/100,getHeight()/100, 100);
+		grid=new Grid(new Color(255,255,0),getWidth()/100,getHeight()/100, 100);
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = 
 					new Pixel(
@@ -110,6 +109,10 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 					1000, 
 					800);
 		}
+	}
+	
+	public void setColor(Color color){
+		grid=new Grid(color, getWidth()/100,getHeight()/100, 100);
 	}
 	
 	public ArrayList<Ship> getEnemies(){
@@ -129,10 +132,10 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			ship.accel();
 		}
 		if(right){
-			ship.turn(Math.toRadians(-5));
+			ship.turn(Math.toRadians(-4));
 		}
 		if(left){
-			ship.turn(Math.toRadians(5));
+			ship.turn(Math.toRadians(4));
 		}
 		if(space){
 			ship.shoot();

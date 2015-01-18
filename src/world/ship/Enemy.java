@@ -28,9 +28,7 @@ public abstract class Enemy extends Ship{
 	public double tx, ty;
 	public static int right;
 	public Enemy(double x, double y){
-		super();
-		super.x=x;
-		super.y=y;
+		super(x,y);
 	}
 	public void update(Ship user){
 		// TODO Auto-generated method stub
