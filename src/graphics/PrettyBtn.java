@@ -11,13 +11,14 @@ import javax.swing.JButton;
 
 
 public class PrettyBtn extends JButton implements MouseListener {
-Color c1,c2;
+	Color c1,c2;
+	Grid grid;
 	public PrettyBtn(String title,int type, Color c) {
 		// TODO Auto-generated constructor stub
 		this();
 		if(type==1){
-		c1 = c;
-		c2 = c.darker();
+			c1 = c;
+			c2 = c.darker();
 		}
 		else if(type==2){
 			c1 = c.darker();
@@ -44,6 +45,10 @@ Color c1,c2;
 		this.setRolloverEnabled(true);
 		this.setRolloverIcon(hover);
 	}
+	
+	public void setGrid(Grid grid){
+		this.grid=grid;
+	}
 
 	public void mouseClicked(MouseEvent e) {
 	}
@@ -59,8 +64,9 @@ Color c1,c2;
 		if (e.getSource() == this) {
 			this.setBackground(c2);
 			this.setForeground(c1);
+			grid.setColor(c1);
 		}
-
+		
 	}
 
 	public void mouseExited(MouseEvent e) {
@@ -69,7 +75,5 @@ Color c1,c2;
 			this.setBackground(c1);
 			this.setForeground(c2);
 		}
-
 	}
-
 }

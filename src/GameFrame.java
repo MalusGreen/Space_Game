@@ -9,6 +9,7 @@ public class GameFrame extends JFrame implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	static Timer timer;
 	static Container c;
 	static Game game;
 	static Menu menu;
@@ -42,15 +43,25 @@ public class GameFrame extends JFrame implements ActionListener{
 		c.add(game, "Show Game");
 		
 		addKeyListener(game);
+		timer=new Timer(10,this);
+		timer.addActionListener(this);
+		timer.start();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		cards.show(c, "Show Game");
-		game.requestFocus();
+		
 		for(int i=0;i<menu.colors.length;i++){
 			if(e.getSource()==menu.colors[i]){
+				cards.show(c, "Show Game");
+				game.requestFocus();
 				game.setColor(colors[i]);
 			}
+		}
+		if(e.getSource()==timer){
+			repaint();
+		}
+		else{
+			timer.stop();
 		}
 	}
 }

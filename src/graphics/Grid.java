@@ -40,6 +40,10 @@ public class Grid {
 		}
 	}
 	
+	public void setColor(Color c){
+		color=c.getRGBColorComponents(null);
+	}
+	
 	public void randomize(){
 		opacity=new float[x][y];
 		for(int i=0;i<x;i++){
