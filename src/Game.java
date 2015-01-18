@@ -7,9 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import ship.Enemy;
-import ship.RingWraith;
-import ship.Ship;
+import world.ship.*;
 
 
 public class Game extends JPanel implements KeyListener, ActionListener{
@@ -19,7 +17,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	private static final long serialVersionUID = 1L;
 	private Pixel[] pixels;
 	private Pixel[] pixels_2;
-	private ArrayList<Enemy> enemies;
+	private ArrayList<Ship> enemies;
 	private Grid grid;
 	private Ship ship;
 	private boolean left, right, up, space;
@@ -33,11 +31,11 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		timer=new Timer(10,this);
 		
 		ship=new Ship();
-		enemies=new ArrayList<Enemy>();
+		enemies=new ArrayList<Ship>();
 		setBackground(new Color(0, 0, 0));
 		setBackground(50);
 		
-		addRingShip(1);
+		addRingShip(10);
 		addKeyListener(this);
 		
 		timer.start();
@@ -48,14 +46,14 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		drawBackground(g);
 		drawEnemies(g);
 		ship.draw(g);
-		ship.update();
+		ship.update(enemies);
 	}
 	
 	//Generates Enemies
 	public void addRingShip(int n){
 		for(int i=0;i<n;i++){
-			//enemies.add(new RingWraith(Math.random()*getWidth()+200,Math.random()*getHeight()+500));
-			enemies.add(new RingWraith(200,500));
+			enemies.add(new RingWraith(Math.random()*getWidth()+200,Math.random()*getHeight()+500));
+//			enemies.add(new RingWraith(200,500));
 		}
 	}
 	
@@ -71,16 +69,17 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			//Try to condense this all to one method.
 			for(int i=0;i<enemies.size();i++){
 				//Change to alive boolean.
-				if(enemies.get(i).getHealth()<=-10){
-					enemies.remove(i);
+				Enemy e=(Enemy) enemies.get(i);
+				if(e.getHealth()<=-10){
+					enemies.remove(e);
 					i--;
 					continue;
 				}
 				//Change to become one method
-				else if(enemies.get(i).isAlive()){
-					enemies.get(i).update(ship);
+				else if(e.isAlive()){
+					e.update(ship);
 				}
-				enemies.get(i).drawShip(g);
+				e.drawShip(g);
 			}
 		}
 	}
@@ -111,6 +110,10 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 					1000, 
 					800);
 		}
+	}
+	
+	public ArrayList<Ship> getEnemies(){
+		return enemies;
 	}
 	//ActionListener
 	@Override
@@ -163,15 +166,12 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if(e.getKeyCode()==KeyEvent.VK_W){
-			System.out.println("left");
 			up=false;
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_D){
-			System.out.println("left");
 			right=false;
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_A){
-			System.out.println("left");
 			left=false;
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_UP){
