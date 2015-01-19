@@ -89,8 +89,8 @@ public class Ship {
 	public void update(ArrayList<Ship> enemies){
 		x+=dx;
 		y+=dy;
-		dx-=dx*0.01;
-		dy-=dy*0.01;
+		dx*=0.99;
+		dy*=0.99;
 		if(health<=0){
 			alive=false;
 		}
@@ -144,6 +144,11 @@ public class Ship {
 			dy+=Math.sin(angle)/10;
 			dx-=Math.cos(angle)/10;
 		}
+	}
+	
+	public void deccel(){
+		dx*=0.9;
+		dy*=0.9;
 	}
 	
 	public void switchWeapon(int weapon){

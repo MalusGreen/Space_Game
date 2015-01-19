@@ -20,8 +20,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	private ArrayList<Ship> enemies;
 	private Grid grid;
 	private Ship ship;
-	private boolean left, right, up, space;
-	
+	private boolean left, right, up, down, space;
+	private JLabel FPS;
+	private long start, end;
 //	Action up, right, left;
 	
 	Timer timer;
@@ -36,8 +37,14 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		
 		addRingShip(10);
 		addBigShip(5);
-		addKeyListener(this);
 		
+		
+		addKeyListener(this);
+		FPS=new JLabel();
+		FPS.setForeground(Color.white);
+		if(start!=0&&end!=0)
+			FPS.setText("FPS: "+1/((start-end)/1000000000.0));
+		add(FPS);
 		timer.start();
 	}
 	@Override
@@ -55,7 +62,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			enemies.add(new RingWraith(Math.random()*getWidth()+200,Math.random()*getHeight()+500));
 //			enemies.add(new RingWraith(200,500));
 		}
-	}
+	}	
 	public void addBigShip(int n){
 		for(int i=0;i<n;i++){
 			enemies.add(new BigWraith(Math.random()*getWidth()+200,Math.random()*getHeight()+500));
@@ -129,6 +136,10 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	//ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		start=end;
+		end=System.nanoTime();
+		if(start!=0&&end!=0)
+			FPS.setText("FPS: "+1000000000/((end-start)));
 		keys();
 		repaint();
 	}
@@ -145,6 +156,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		if(left){
 			ship.turn(Math.toRadians(4));
 		}
+		if(down){
+			ship.deccel();
+		}
 		if(space){
 			ship.shoot();
 		}
@@ -160,6 +174,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_A){
 			left=true;
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_S){
+			down=true;
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_UP){
 			up=true;
@@ -190,6 +207,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_A){
 			left=false;
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_S){
+			down=false;
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_UP){
 			up=false;

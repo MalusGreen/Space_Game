@@ -37,7 +37,6 @@ public class BigWraith extends Enemy {
 		for(Weapon i: weapons){
 			i.draw(g, x, y, angle);
 		}
-	
 
 	}
 

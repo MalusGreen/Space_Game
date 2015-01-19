@@ -19,8 +19,8 @@ public class Pixel {
 		g.setColor(color);
 		g.drawRect((int)x-cx*9/10-2, (int)y-cy*9/10-2, size, size);
 		g.fillRect((int)x-cx, (int)y-cy, size, size);
-		x-=Math.random()*speed/100;
-		y+=Math.random()*speed/100;
+		x-=speed/1000;
+		y+=speed/1000;
 		speed+=Math.random()/25;
 		if(x<0){
 			makePixel();
