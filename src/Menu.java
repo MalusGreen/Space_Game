@@ -19,7 +19,7 @@ public class Menu extends JPanel{
 	public Menu(){
 		//TODO LOL CHANGE THIS AFTER YOU CHECK IT
 		super();
-		this.grid=new Grid(Color.gray, 1000,800, 100);
+		this.grid=new Grid(Color.gray, 1000/100,800/100, 100);
 		setSize(1000,800);
 		setLayout(new GridBagLayout());
 		colors=new PrettyBtn[5];
@@ -32,6 +32,7 @@ public class Menu extends JPanel{
 	}
 	@Override
 	public void paintComponent(Graphics g ){
+		super.paintComponent(g);
 		grid.draw(g, 0, 0);
 	}
 }
