@@ -46,16 +46,16 @@ public class RingWraith extends Enemy{
 	
 	private void pursuit(){
 		Vector<Double> targetVector = getVector();
+		Vector<Double> connectVector = getConnectingVector();
 		//T= Dc
 		//idk how c works, turning parameter apparently? I took rad/frame divided by accel/frame
 		double T = getDistance()*c;
-		double oAngle = getNewAngle(dx, dy);
-		double tAngle = targetVector.get(3);
-		if (tAngle+10>oAngle && tAngle-10<oAngle){
-			
-			//T=0.05; //scaling T if you go directly towards them
-		} else if (tAngle+5>oAngle && tAngle-5<oAngle){
-			T = 0; //down to 0 if the angle gets close enough
+		boolean samex = (targetVector.get(1)>0 && connectVector.get(1)<0 )|| (targetVector.get(1)<0 && connectVector.get(1)>0 ) ;
+		boolean samey = (targetVector.get(2)>0 && connectVector.get(2)<0 )|| (targetVector.get(2)<0 && connectVector.get(2)>0 ) ;
+
+		
+		if (samex && samey){
+			T = 0.05;
 		}
 		//double T = 10;
 		double xs = targetVector.get(1);
@@ -76,6 +76,19 @@ public class RingWraith extends Enemy{
 		Vector<Double> tv = new Vector<Double>();
 		double xspeed = txn-txo;
 		double yspeed = tyn-tyo;
+		double tSpeed = Math.sqrt(Math.pow(xspeed, 2)+ Math.pow(yspeed, 2));
+		tv.add(tSpeed);
+		tv.add(xspeed);
+		tv.add(yspeed);
+		double tAngle = getNewAngle(xspeed, yspeed);
+		tv.add(tAngle);
+		return tv;
+	}
+	
+	private Vector<Double> getConnectingVector(){
+		Vector<Double> tv = new Vector<Double>();
+		double xspeed = txn-x;
+		double yspeed = tyn-y;
 		double tSpeed = Math.sqrt(Math.pow(xspeed, 2)+ Math.pow(yspeed, 2));
 		tv.add(tSpeed);
 		tv.add(xspeed);
