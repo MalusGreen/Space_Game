@@ -24,10 +24,11 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	
 //	Action up, right, left;
 	
-	
+	Timer timer;
 	public Game(){
 		super();
 		setSize(1000,800);
+		timer=new Timer(10,this);
 		ship=new Ship(100,100);
 		enemies=new ArrayList<Ship>();
 		setBackground(new Color(0, 0, 0));
@@ -35,6 +36,8 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		
 		addRingShip(10);
 		addKeyListener(this);
+		
+		timer.start();
 	}
 	@Override
 	public void paintComponent(Graphics g){
