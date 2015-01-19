@@ -35,6 +35,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		setBackground(50);
 		
 		addRingShip(10);
+		addBigShip(5);
 		addKeyListener(this);
 		
 		timer.start();
@@ -55,6 +56,12 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 //			enemies.add(new RingWraith(200,500));
 		}
 	}
+	public void addBigShip(int n){
+		for(int i=0;i<n;i++){
+			enemies.add(new BigWraith(Math.random()*getWidth()+200,Math.random()*getHeight()+500));
+//			enemies.add(new RingWraith(200,500));
+		}
+	}
 	
 	//Draws and updates
 	public void drawEnemies(Graphics g){
@@ -62,6 +69,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		//Test Method... adds RingWraiths
 		if(enemies.isEmpty()){
 			addRingShip(10);
+			addBigShip(5);
 		}
 		else{
 			// TODO Auto-generated method stub

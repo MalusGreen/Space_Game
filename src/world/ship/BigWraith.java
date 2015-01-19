@@ -5,24 +5,42 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import world.ship.weapons.MachineGun;
-import world.ship.weapons.MissleLauncher;
 import world.ship.weapons.Weapon;
 import world.ship.weapons.ammo.Ammo;
 
-public class RingWraith extends Enemy{
-	
+public class BigWraith extends Enemy {
 	private double tyo=0, txo=0, tyn=0, txn=0;
-	private final double c =0.25;
-	public RingWraith(double x, double y){
-		//Attributes are mostly 1.
-		super(x, y);
-		speed=2.5;
-		health=1;
-		
+	private final double c =.5;
 	
+	public BigWraith(double x, double y) {
+		super(x, y);
+		size = 5;
+		speed=1;
+		health=10;
+		// TODO Auto-generated constructor stub
 	}
+
 	@Override
+	public void drawShip(Graphics g) {
+		// TODO Auto-generated method stub
+		if(health<=0){
+			g.setColor(Color.red);
+			g.drawRect((int)x-size, (int)y-size, health*-1,health*-1);
+			health--;
+			return;
+		}
+		g.setColor(Color.YELLOW);
+		g.drawOval((int)x-size, (int)y-size, size*2, size*2);
+		g.setColor(Color.MAGENTA);
+		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x+size*1.5*health/10), (int)y-6);
+		
+		for(Weapon i: weapons){
+			i.draw(g, x, y, angle);
+		}
+	
+
+	}
+
 	public void target(Ship user){
 		//Targets user.
 		tyo = tyn;
@@ -103,28 +121,13 @@ public class RingWraith extends Enemy{
 		
 		return Dt;
 	}
+
 	@Override
-	public void avoid(Ship user){
-		
-	}
-	@Override
-	public void drawShip(Graphics g) {
+	public void avoid(Ship user) {
 		// TODO Auto-generated method stub
-		if(health<=0){
-			g.setColor(Color.red);
-			g.drawRect((int)x-size, (int)y-size, health*-1,health*-1);
-			health--;
-			return;
-		}
-		g.setColor(Color.yellow);
-		g.drawOval((int)x-size, (int)y-size, size*2, size*2);
-		g.setColor(Color.green);
-		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x+size*1.5*health/10), (int)y-6);
-		
-		for(Weapon i: weapons){
-			i.draw(g, x, y, angle);
-		}
+
 	}
+
 	@Override
 	public void damage(Ship user) {
 		ArrayList<Ammo> bullets;
@@ -141,5 +144,7 @@ public class RingWraith extends Enemy{
 				}
 			}
 		}
+
 	}
+
 }
