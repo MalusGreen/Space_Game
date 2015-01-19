@@ -60,7 +60,7 @@ public class Ship {
 		size=3;
 		speed=3;
 		accel=0;
-		health=100000;
+		health=100;
 		alive=true;
 		weapons.add(new MachineGun());
 		weapons.add(new MissleLauncher());
