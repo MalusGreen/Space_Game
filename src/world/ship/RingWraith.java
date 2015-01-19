@@ -34,7 +34,11 @@ public class RingWraith extends Enemy{
 			dx=a*speed/hyp;
 			dy=b*speed/hyp;
 		}
-		
+		ArrayList<Ship> temp=new ArrayList<Ship>();
+		temp.add(user);
+		weapon=1;
+		weapons.get(1).update(x,y,temp);
+		shoot();
 		//System.out.println("o: "+tyn+" t:"+ty);
 		//System.out.println("o: "+txn+" t:"+tx);
 		
@@ -116,6 +120,7 @@ public class RingWraith extends Enemy{
 		g.drawOval((int)x-size, (int)y-size, size*2, size*2);
 		g.setColor(Color.green);
 		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x+size*1.5*health/10), (int)y-6);
+		weapons.get(1).draw(g, x, y, angle);
 	}
 	@Override
 	public void damage(Ship user) {

@@ -39,18 +39,25 @@ public class GameFrame extends JFrame implements ActionListener{
 		for(int i=0;i<menu.colors.length;i++){
 			menu.colors[i].addActionListener(this);
 		}
+		
+		
 		c.add(menu, "Show Menu");
 		c.add(game, "Show Game");
 		
 		addKeyListener(game);
 		timer=new Timer(10,this);
+		timer.addActionListener(this);
 		timer.start();
+	}
+	
+	@Override
+	public void paint(Graphics g){
+		super.paint(g);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		for(int i=0;i<menu.colors.length;i++){
-			
 			if(e.getSource()==menu.colors[i]){
 				cards.show(c, "Show Game");
 				game.requestFocus();
@@ -64,6 +71,4 @@ public class GameFrame extends JFrame implements ActionListener{
 			timer.stop();
 		}
 	}
-	
-	
 }
