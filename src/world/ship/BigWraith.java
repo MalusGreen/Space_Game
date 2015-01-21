@@ -1,5 +1,7 @@
 package world.ship;
 
+import game.Game;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -14,11 +16,11 @@ public class BigWraith extends Enemy {
 	
 	public BigWraith(double x, double y) {
 		super(x, y);
+		//TODO manage weapons nicely.
 		size = 5;
 		speed=1;
 		health=10;
 		weapon=1;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -33,7 +35,7 @@ public class BigWraith extends Enemy {
 		g.setColor(Color.YELLOW);
 		g.drawOval((int)x-size, (int)y-size, size*2, size*2);
 		g.setColor(Color.MAGENTA);
-		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x+size*1.5*health/10), (int)y-6);
+		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x-size*1.5+size*1.5*health/10), (int)y-6);
 		
 		for(Weapon i: weapons){
 			i.draw(g, x, y, angle);
@@ -139,31 +141,10 @@ public class BigWraith extends Enemy {
 		
 		return Dt;
 	}
-	
-	
 
 	@Override
 	public void avoid(Ship user) {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void damage(Ship user) {
-		ArrayList<Ammo> bullets;
-		if(user.getRect().intersects(this.getRect())){
-			user.setHealth(user.getHealth()-20);
-			health=0;
-		}
-		for(Weapon item:user.getWeapons()){
-			bullets=item.getBullets();
-			for(Ammo i:bullets){
-				if(i.getRect().intersects(this.getRect())){
-					health-=item.getDamage();
-					i.setRange(0);
-				}
-			}
-		}
 
 	}
 

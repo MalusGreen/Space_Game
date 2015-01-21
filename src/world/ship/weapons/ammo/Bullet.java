@@ -11,6 +11,7 @@ public class Bullet extends Ammo{
 		super(x, y, angle, 6);
 		size=1;
 		range=1;
+		damage=1;
 	}
 	@Override
 	public void draw(Graphics g){

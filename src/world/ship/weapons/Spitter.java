@@ -14,32 +14,22 @@ public class Spitter extends Weapon{
 	}
 	public void draw(Graphics g, double x, double y, double angle) {
 		// TODO Auto-generated method stub
-		for(int i=0;i<ammo.size();i++){
-			ammo.get(i).draw(g);
-			ammo.get(i).setTarget(target);
-		}
 		if(cooldown>=0){
 			cooldown--;
 		}
 	}
 	@Override
-	public void fire(double x, double y, double angle) {
-		if(cooldown>=0){
-			return;
-		}
-		Shell shell=new Shell(x,y,angle);
-		ammo.add(shell);
+	public Ammo fire(double x, double y, double angle) {
 		cooldown+=firerate;
+		if(cooldown>=0){
+			return null;
+		}
+		return new Shell(x,y,angle);
 	}
 	@Override
 	public void update(double x, double y, ArrayList<Ship> enemies) {
 //		for(Ammo i:ammo){
 //			lockOn(i,enemies);
 //		}
-	}
-	@Override
-	public ArrayList<Ammo> getBullets() {
-		// TODO Auto-generated method stub
-		return ammo;
 	}
 }

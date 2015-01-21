@@ -8,6 +8,7 @@ public class Shell extends Ammo{
 		super(x, y, angle, 6);
 		size=1;
 		range=1;
+		damage=5;
 	}
 	@Override
 	public void draw(Graphics g){

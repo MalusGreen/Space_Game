@@ -1,3 +1,3 @@
-javac *.java
-java GameFrame
+javac game\*.java
+java game\GameFrame
 pause

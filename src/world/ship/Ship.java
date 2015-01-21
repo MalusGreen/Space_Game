@@ -1,11 +1,14 @@
 package world.ship;
 
+import game.Game;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import world.ship.weapons.*;
+import world.ship.weapons.ammo.Ammo;
 
 
 
@@ -35,6 +38,7 @@ public class Ship {
 	protected double sx, sy;
 	protected int size;
 	protected int accel;
+	//TODO make MAX HEALTH
 	protected int health;
 	protected boolean alive;
 	
@@ -42,6 +46,7 @@ public class Ship {
 	protected int weapon;
 //	protected Ship target;
 //	protected ArrayList<Terrain> map;
+	protected static ArrayList<Ammo> projectiles;
 
 	protected ArrayList<Weapon> weapons=new ArrayList<Weapon>();
 	
@@ -67,6 +72,10 @@ public class Ship {
 	}
 	public void setWorld(){
 		
+	}
+	
+	public void setAmmoList(ArrayList<Ammo> projectiles){
+		this.projectiles=projectiles;
 	}
 	//Targets closest Enemy
 	
@@ -101,40 +110,37 @@ public class Ship {
 	
 	//Draw all the modules on your ship.
 	public void drawShip(Graphics g){
-		//Change to Weapons.draw(g);
-		
-		//Change to Chasis.draw(g);
-				
-		//Engine.draw(g);
-		
-		//Draw target box around target.
-		//Weapons
+		drawWeapons(g);
+		drawEngine(g);
+		drawBody(g);
+		drawHealth(g);
+	}
+	protected void drawWeapons(Graphics g){
 		for(Weapon i: weapons){
 			i.draw(g, x, y, angle);
+			
 		}
-		
-		//Engine
+	}
+	protected void drawEngine(Graphics g){
 		if(accel>0){
 			g.setColor(Color.orange);
 			g.drawLine((int)x,(int)y,(int)(x-2*size*Math.cos(angle+0.3)),(int)(y+2*size*Math.sin(angle+0.3)));
 			g.drawLine((int)x,(int)y,(int)(x-2*size*Math.cos(angle-0.3)),(int)(y+2*size*Math.sin(angle-0.3)));
 			accel--;
 		}
-		
-		//Body
+	}
+	protected void drawBody(Graphics g){
 		g.setColor(Color.red);
 		g.drawRect((int)x-size,(int)y-size,size*2,size*2);
 		
-		//Health
+	}
+	protected void drawHealth(Graphics g){
 		g.setColor(Color.red);
 		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x+size*1.5), (int)y-6);
 		g.setColor(Color.green);
 		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x-size*1.5+size*3*health/100), (int)y-6);
-	} 
-	
-	public void damage(Ship user){
-		health--;
 	}
+	
 	//Accelerates in the var angle direction.
 	public void accel(){
 		accel=2;
@@ -145,102 +151,89 @@ public class Ship {
 			dx-=Math.cos(angle)/10;
 		}
 	}
-	
 	public void deccel(){
 		dx*=0.9;
 		dy*=0.9;
 	}
-	
-	public void switchWeapon(int weapon){
-		this.weapon=weapon;
-	}
-	
-	//Creates bullets in weapons. Possibly other types of ammo will be used as well.
-	public void shoot(){
-//		for(Weapon i:weapons){
-//			i.fire(x-sx,y-sy,angle);
-//		}
-		
-		//TODO
-		
-		weapons.get(weapon).fire(x-sx,y-sy,angle);
-	}
-	
-	//Updates angle.
 	public void turn(double turn_rate){
 		angle+=turn_rate;
 	}
+	public void switchWeapon(int weapon){
+		this.weapon=weapon;
+	}
+	public void shoot(){
+		//TODO make arraylist of ammo so ammo can be sent from multiple weapons.
+		Ammo a=weapons.get(weapon).fire(x-sx,y-sy,angle);
+		if(a!=null){
+			projectiles.add(a);
+		}
+	}
+	
 	
 	//Getters and Setters
 	public double getAngle() {
 		return angle;
 	}
-
 	public void setAngle(double angle) {
 		this.angle = angle;
 	}
-	
 	public int getHealth(){
 		return health;
 	}
-	
 	public void setHealth(int health){
 		this.health=health;
 	}
-	
 	public boolean isAlive() {
 		return alive;
 	}
-
 	public void setAlive(boolean alive) {
 		this.alive = alive;
 	}
-
 	public double getDx() {
 		return dx;
 	}
-
 	public void setDx(double dx) {
 		this.dx = dx;
 	}
-
 	public double getDy() {
 		return dy;
 	}
-
 	public void setDy(double dy) {
 		this.dy = dy;
 	}
-
 	public double getSpeed() {
 		return speed;
 	}
-
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
-
 	public double getX() {
 		return x;
 	}
-
 	public void setX(double x) {
 		this.x = x;
 	}
-
 	public double getY() {
 		return y;
 	}
-
 	public void setY(double y) {
 		this.y = y;
 	}
-	
 	public ArrayList<Weapon> getWeapons(){
 		return weapons;
 	}
 	
 	public Rectangle getRect(){
 		return new Rectangle((int)x-size,(int)y-size,size*2,size*2);
+	}
+	
+	public void getCollide(ArrayList<Ammo> projectiles){
+		for(Ammo i:projectiles){
+			if(i.getRect().intersects(this.getRect())){
+				System.out.println(i.getRect().x+" "+i.getRect().y+" "+i.getRect().width+" "+i.getRect().height+" ");
+				health-=i.getDamage();
+				i.setRange(0);
+			}
+		}
 	}
 }

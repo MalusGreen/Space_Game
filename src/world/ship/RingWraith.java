@@ -19,8 +19,6 @@ public class RingWraith extends Enemy{
 		super(x, y);
 		speed=2.5;
 		health=1;
-		
-	
 	}
 	@Override
 	public void target(Ship user){
@@ -30,8 +28,9 @@ public class RingWraith extends Enemy{
 		tyn = user.getY();
 		txn = user.getX();
 		{
-			//getWeapons().get(0).setTarget(user);
 			
+//			getWeapons().get(1).setTarget(user);
+//			shoot();
 			pursuit();
 			double a=tx-x, b=ty-y;
 			double hyp=Math.sqrt(a*a+b*b);
@@ -43,7 +42,24 @@ public class RingWraith extends Enemy{
 		//System.out.println("o: "+txn+" t:"+tx);
 		
 	}
+
+	@Override
+	public void drawShip(Graphics g) {
+		//Create methods that control drawEngine, drawWeapons, drawArmor, drawMods... etc
+		// TODO Auto-generated method stub
+		if(health<=0){
+			g.setColor(Color.red);
+			g.drawRect((int)x-size, (int)y-size, health*-1,health*-1);
+			health--;
+			return;
+		}
+		g.setColor(Color.yellow);
+		g.drawOval((int)x-size, (int)y-size, size*2, size*2);
+		g.setColor(Color.green);
+		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x-size*1.5+size*1.5*health/1), (int)y-6);
+	}
 	
+	//Movement algorithm
 	private void pursuit(){
 		Vector<Double> targetVector = getVector();
 		Vector<Double> connectVector = getConnectingVector();
@@ -118,40 +134,5 @@ public class RingWraith extends Enemy{
 	@Override
 	public void avoid(Ship user){
 		
-	}
-	@Override
-	public void drawShip(Graphics g) {
-		// TODO Auto-generated method stub
-		if(health<=0){
-			g.setColor(Color.red);
-			g.drawRect((int)x-size, (int)y-size, health*-1,health*-1);
-			health--;
-			return;
-		}
-		g.setColor(Color.yellow);
-		g.drawOval((int)x-size, (int)y-size, size*2, size*2);
-		g.setColor(Color.green);
-		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x+size*1.5*health/10), (int)y-6);
-		
-		for(Weapon i: weapons){
-			i.draw(g, x, y, angle);
-		}
-	}
-	@Override
-	public void damage(Ship user) {
-		ArrayList<Ammo> bullets;
-		if(user.getRect().intersects(this.getRect())){
-			user.setHealth(user.getHealth()-20);
-			health=0;
-		}
-		for(Weapon item:user.getWeapons()){
-			bullets=item.getBullets();
-			for(Ammo i:bullets){
-				if(i.getRect().intersects(this.getRect())){
-					health-=item.getDamage();
-					i.setRange(0);
-				}
-			}
-		}
 	}
 }

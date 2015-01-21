@@ -7,6 +7,7 @@ public class Missle extends Ammo{
 	public Missle(double x, double y, double angle){
 		super(x,y,angle,2);
 		size=2;
+		damage=2;
 		//TODO Fix range
 		range=500;
 	}

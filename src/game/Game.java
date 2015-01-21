@@ -1,3 +1,5 @@
+package game;
+
 import graphics.Grid;
 import graphics.Pixel;
 
@@ -8,6 +10,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import world.ship.*;
+import world.ship.weapons.Weapon;
+import world.ship.weapons.ammo.*;
 
 
 public class Game extends JPanel implements KeyListener, ActionListener{
@@ -18,6 +22,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	private Pixel[] pixels;
 	private Pixel[] pixels_2;
 	private ArrayList<Ship> enemies;
+	private ArrayList<Ammo> projectiles;
 	private Grid grid;
 	private Ship ship;
 	private boolean left, right, up, down, space;
@@ -25,13 +30,15 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	private long start, end;
 //	Action up, right, left;
 	
-	Timer timer;
+	private Timer timer;
 	public Game(){
 		super();
 		setSize(1000,800);
-		timer=new Timer(10,this);
+		timer=new Timer(12,this);
 		ship=new Ship(100,100);
 		enemies=new ArrayList<Ship>();
+		projectiles=new ArrayList<Ammo>();
+		ship.setAmmoList(projectiles);
 		setBackground(new Color(0, 0, 0));
 		setBackground(50);
 		
@@ -52,6 +59,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		super.paintComponent(g);
 		drawBackground(g);
 		drawEnemies(g);
+		drawBullets(g);
 		ship.draw(g);
 		ship.update(enemies);
 	}
@@ -70,6 +78,23 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		}
 	}
 	
+	//Removes bullets out of stuff.
+	public void remove(){	
+		
+		for(int i=0;i<projectiles.size();i++){
+			//TODO Map Scrolling
+			if(projectiles.get(i).getRect().x>getWidth()||projectiles.get(i).getRect().y>getHeight()||projectiles.get(i).getRect().x<0||projectiles.get(i).getRect().y<0){
+				projectiles.remove(i);
+				i--;
+			}
+			else if(projectiles.get(i).getRange()<=0){
+				projectiles.remove(i);
+				i--;
+			}
+		}
+	}
+	
+	
 	//Draws and updates
 	public void drawEnemies(Graphics g){
 		
@@ -80,7 +105,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		}
 		else{
 			// TODO Auto-generated method stub
-			//Try to condense this all to one method.
+			// Try to condense this all to one method.
 			for(int i=0;i<enemies.size();i++){
 				//Change to alive boolean.
 				Enemy e=(Enemy) enemies.get(i);
@@ -91,7 +116,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 				}
 				//Change to become one method
 				else if(e.isAlive()){
-					e.update(ship);
+					e.update(ship, projectiles);
 				}
 				e.drawShip(g);
 			}
@@ -105,6 +130,13 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			pixels_2[i].draw(g, 0, 0);
 		}
 		grid.draw(g,0,0);
+	}
+	
+	//Draws bullets
+	public void drawBullets(Graphics g){
+		for(Ammo i:projectiles){
+			i.draw(g);
+		}
 	}
 	
 	//Generates Pixels;
@@ -141,6 +173,8 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		if(start!=0&&end!=0)
 			FPS.setText("FPS: "+1000000000/((end-start)));
 		keys();
+		//Remove Bullets
+		remove();
 		repaint();
 	}
 	
