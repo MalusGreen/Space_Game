@@ -52,7 +52,6 @@ public class RingWraith extends Enemy{
 		double T = getDistance()*c;
 		boolean samex = (targetVector.get(1)>0 && connectVector.get(1)<0 )|| (targetVector.get(1)<0 && connectVector.get(1)>0 ) ;
 		boolean samey = (targetVector.get(2)>0 && connectVector.get(2)<0 )|| (targetVector.get(2)<0 && connectVector.get(2)>0 ) ;
-
 		
 		if (samex && samey){
 			T = 0.05;
