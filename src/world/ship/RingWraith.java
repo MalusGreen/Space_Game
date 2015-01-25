@@ -2,13 +2,7 @@ package world.ship;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.Vector;
-
-import world.ship.weapons.MachineGun;
-import world.ship.weapons.MissleLauncher;
-import world.ship.weapons.Weapon;
-import world.ship.weapons.ammo.Ammo;
 
 public class RingWraith extends Enemy{
 	
@@ -17,6 +11,8 @@ public class RingWraith extends Enemy{
 	public RingWraith(double x, double y){
 		//Attributes are mostly 1.
 		super(x, y);
+		team=1;
+		size=3;
 		speed=2.5;
 		health=1;
 	}
@@ -46,7 +42,10 @@ public class RingWraith extends Enemy{
 	@Override
 	public void drawShip(Graphics g) {
 		//Create methods that control drawEngine, drawWeapons, drawArmor, drawMods... etc
-		// TODO Auto-generated method stub
+		// TODO
+		// TODO
+		//!!!!!!!!!!!!!!!!!!!!!
+		//There is now drawhealth, drawBody, drawWeapons, etc methods. Eventuall this should be moved to those.
 		if(health<=0){
 			g.setColor(Color.red);
 			g.drawRect((int)x-size, (int)y-size, health*-1,health*-1);
@@ -56,7 +55,7 @@ public class RingWraith extends Enemy{
 		g.setColor(Color.yellow);
 		g.drawOval((int)x-size, (int)y-size, size*2, size*2);
 		g.setColor(Color.green);
-		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x-size*1.5+size*1.5*health/1), (int)y-6);
+		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x+size*1.5*health/1), (int)y-6);
 	}
 	
 	//Movement algorithm
@@ -68,6 +67,7 @@ public class RingWraith extends Enemy{
 		double T = getDistance()*c;
 		boolean samex = (targetVector.get(1)>0 && connectVector.get(1)<0 )|| (targetVector.get(1)<0 && connectVector.get(1)>0 ) ;
 		boolean samey = (targetVector.get(2)>0 && connectVector.get(2)<0 )|| (targetVector.get(2)<0 && connectVector.get(2)>0 ) ;
+
 		
 		if (samex && samey){
 			T = 0.05;

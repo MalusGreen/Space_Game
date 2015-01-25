@@ -11,6 +11,10 @@ import javax.swing.JButton;
 
 
 public class PrettyBtn extends JButton implements MouseListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Color c1,c2;
 	Grid grid;
 	public PrettyBtn(String title,int type, Color c) {

@@ -7,15 +7,16 @@ import java.util.ArrayList;
 import world.ship.Ship;
 
 public abstract class Ammo{
-	Ship target;
-	double tx, ty;
-	double x,y;
-	double angle;
-	double dx, dy;
-	double speed;
-	int size;
-	int range;
-	int damage;
+	protected double tx, ty;
+	protected double x,y;
+	protected double angle;
+	protected double dx, dy;
+	protected double speed;
+	protected int size;
+	protected int range;
+	protected int damage;
+	protected int team;
+	protected Ship target;
 	
 	public Ammo(double x, double y, double angle, double speed){
 		this.angle=angle;
@@ -30,11 +31,12 @@ public abstract class Ammo{
 	public abstract void draw(Graphics g);
 	
 	//Targets closest enemy.
-	private void lockOn(Ammo ammo, ArrayList<Ship> enemies){
+	public void lockOn(ArrayList<Ship> enemies){
 		if(!enemies.isEmpty()){
+			System.out.println("Ammo.lockOn(): Does this happen?");
 			target=enemies.get(0);
 			for(Ship i:enemies){
-				target=closest(ammo, target,i);
+				target=closest(this, target,i);
 			}
 		}
 	}
@@ -51,6 +53,12 @@ public abstract class Ammo{
 	}
 	
 	//Getters and Setters
+	public void setTeam(int team){
+		this.team=team;
+	}
+	public int getTeam(){
+		return team;
+	}
 	public void setTarget(Ship target){
 		this.target=target;
 	}
@@ -60,7 +68,7 @@ public abstract class Ammo{
 	public int getRange(){
 		return range;
 	}
-	public double getDamage(){
+	public int getDamage(){
 		return damage;
 	}
 	public double getX() {

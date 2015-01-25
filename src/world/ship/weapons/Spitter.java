@@ -1,9 +1,7 @@
 package world.ship.weapons;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
 
-import world.ship.Ship;
 import world.ship.weapons.ammo.*;
 
 public class Spitter extends Weapon{
@@ -25,11 +23,5 @@ public class Spitter extends Weapon{
 			return null;
 		}
 		return new Shell(x,y,angle);
-	}
-	@Override
-	public void update(double x, double y, ArrayList<Ship> enemies) {
-//		for(Ammo i:ammo){
-//			lockOn(i,enemies);
-//		}
 	}
 }

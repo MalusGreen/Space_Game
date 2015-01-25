@@ -2,8 +2,6 @@ package world.ship;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import world.ship.weapons.ammo.Ammo;
-
 public abstract class Enemy extends Ship{
 	/* Enemy has all the functions of Ship, 
 	 * the only difference that behaviors are 
@@ -32,14 +30,13 @@ public abstract class Enemy extends Ship{
 	public Enemy(double x, double y){
 		super(x,y);
 	}
-	public void update(Ship user, ArrayList<Ammo> ammo){
+	public void update(Ship user){
 		// TODO Auto-generated method stub
 		//Movement
 		target(user);
 		ArrayList<Ship> temp=new ArrayList<Ship>();
 		temp.add(user);
 		super.update(temp);
-		getCollide(ammo);
 	}
 	@Override
 	public abstract void drawShip(Graphics g);

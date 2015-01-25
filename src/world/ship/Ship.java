@@ -1,7 +1,5 @@
 package world.ship;
 
-import game.Game;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -12,25 +10,25 @@ import world.ship.weapons.ammo.Ammo;
 
 
 
+/* Ship class is the basic class 
+ * of which different ship types can be.
+ * 
+ * Depending on customization Ship can have different weapons
+ * from the weapons class, which will shoot different types
+ * of ammo.
+ * 
+ * shoot()  -fires weapons
+ * turn()   -turns the ship
+ * accel()  -accelerates the ship in the direction of var angl
+ * damage() -TODO damage calc
+ * draw()   -draws ship and ship components.
+ * 			-TODO rotation
+ * update() -updates position of ship
+ * 			-updates status of ship
+ * 				-alive
+ */
 
 public class Ship {
-	/* Ship class is the basic class 
-	 * of which different ship types can be.
-	 * 
-	 * Depending on customization Ship can have different weapons
-	 * from the weapons class, which will shoot different types
-	 * of ammo.
-	 * 
-	 * shoot()  -fires weapons
-	 * turn()   -turns the ship
-	 * accel()  -accelerates the ship in the direction of var angl
-	 * damage() -TODO damage calc
-	 * draw()   -draws ship and ship components.
-	 * 			-TODO rotation
-	 * update() -updates position of ship
-	 * 			-updates status of ship
-	 * 				-alive
-	 */
 	protected double angle;
 	protected double dx,dy;
 	protected double speed;
@@ -38,8 +36,9 @@ public class Ship {
 	protected double sx, sy;
 	protected int size;
 	protected int accel;
-	//TODO make MAX HEALTH
+	protected int MAXHEALTH;
 	protected int health;
+	protected int team;
 	protected boolean alive;
 	
 	//TODO change this mechanic.
@@ -51,31 +50,42 @@ public class Ship {
 	protected ArrayList<Weapon> weapons=new ArrayList<Weapon>();
 	
 	public Ship(double x, double y){
-		//Movement vars
-		angle=Math.toRadians(90);
+		initVars(x,y);
+	}
+	
+	public Ship(double x, double y, String player){
+		this(x,y);
+		//Player Attributes
+		team=0;
 		
+		size=3;
+		speed=3;
+		
+		MAXHEALTH=100;
+		health=MAXHEALTH;
+		
+		weapons.add(new MachineGun());
+		weapons.add(new MissleLauncher());
+	}
+	
+	private void initVars(double x, double y){
+		angle=0;
 		this.x=x;
 		this.y=y;
 		dx=0;
 		dy=0;
 		sx=0;
 		sy=0;
-		
-		//Attributes.
-		size=3;
-		speed=3;
 		accel=0;
-		health=100;
 		alive=true;
-		weapons.add(new MachineGun());
-		weapons.add(new MissleLauncher());
 	}
+	
 	public void setWorld(){
 		
 	}
 	
 	public void setAmmoList(ArrayList<Ammo> projectiles){
-		this.projectiles=projectiles;
+		Ship.projectiles=projectiles;
 	}
 	//Targets closest Enemy
 	
@@ -104,7 +114,8 @@ public class Ship {
 			alive=false;
 		}
 		for(Weapon i: weapons){
-			i.update(x, y, enemies);
+			//TODO The idea that there will be auto-locking weapons in the future needs to be considered.
+			i.update();
 		}
 	}
 	
@@ -118,7 +129,6 @@ public class Ship {
 	protected void drawWeapons(Graphics g){
 		for(Weapon i: weapons){
 			i.draw(g, x, y, angle);
-			
 		}
 	}
 	protected void drawEngine(Graphics g){
@@ -138,7 +148,7 @@ public class Ship {
 		g.setColor(Color.red);
 		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x+size*1.5), (int)y-6);
 		g.setColor(Color.green);
-		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x-size*1.5+size*3*health/100), (int)y-6);
+		g.drawLine((int)(x-size*1.5), (int)y-6, (int)((x-size*1.5)+3*size*health/100), (int)y-6);
 	}
 	
 	//Accelerates in the var angle direction.
@@ -165,75 +175,51 @@ public class Ship {
 		//TODO make arraylist of ammo so ammo can be sent from multiple weapons.
 		Ammo a=weapons.get(weapon).fire(x-sx,y-sy,angle);
 		if(a!=null){
+			a.setTeam(team);
 			projectiles.add(a);
 		}
 	}
 	
 	
 	//Getters and Setters
-	public double getAngle() {
-		return angle;
-	}
 	public void setAngle(double angle) {
 		this.angle = angle;
-	}
-	public int getHealth(){
-		return health;
 	}
 	public void setHealth(int health){
 		this.health=health;
 	}
-	public boolean isAlive() {
-		return alive;
-	}
 	public void setAlive(boolean alive) {
 		this.alive = alive;
 	}
+	public boolean isAlive() {
+		return alive;
+	}
+	public int getTeam(){
+		return team;
+	}
+	public int getHealth(){
+		return health;
+	}
+
 	public double getDx() {
 		return dx;
-	}
-	public void setDx(double dx) {
-		this.dx = dx;
 	}
 	public double getDy() {
 		return dy;
 	}
-	public void setDy(double dy) {
-		this.dy = dy;
-	}
 	public double getSpeed() {
 		return speed;
-	}
-	public void setSpeed(double speed) {
-		this.speed = speed;
 	}
 	public double getX() {
 		return x;
 	}
-	public void setX(double x) {
-		this.x = x;
-	}
 	public double getY() {
 		return y;
-	}
-	public void setY(double y) {
-		this.y = y;
 	}
 	public ArrayList<Weapon> getWeapons(){
 		return weapons;
 	}
-	
 	public Rectangle getRect(){
 		return new Rectangle((int)x-size,(int)y-size,size*2,size*2);
-	}
-	
-	public void getCollide(ArrayList<Ammo> projectiles){
-		for(Ammo i:projectiles){
-			if(i.getRect().intersects(this.getRect())){
-				System.out.println(i.getRect().x+" "+i.getRect().y+" "+i.getRect().width+" "+i.getRect().height+" ");
-				health-=i.getDamage();
-				i.setRange(0);
-			}
-		}
 	}
 }

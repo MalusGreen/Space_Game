@@ -1,14 +1,10 @@
 package world.ship;
 
-import game.Game;
-
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.Vector;
 
-import world.ship.weapons.Weapon;
-import world.ship.weapons.ammo.Ammo;
+import world.ship.weapons.MissleLauncher;
 
 public class BigWraith extends Enemy {
 	private double tyo=0, txo=0, tyn=0, txn=0;
@@ -17,15 +13,20 @@ public class BigWraith extends Enemy {
 	public BigWraith(double x, double y) {
 		super(x, y);
 		//TODO manage weapons nicely.
+		//TODO Weapons now don't automatically get pick and each ship will have it's own set of weapons.
+		
+		//Enemy Attributes.
+		team=1;
 		size = 5;
 		speed=1;
-		health=10;
-		weapon=1;
+		MAXHEALTH=10;
+		health=MAXHEALTH;
+		//BigWraith Weapons.
+		weapons.add(new MissleLauncher());
 	}
 
 	@Override
 	public void drawShip(Graphics g) {
-		// TODO Auto-generated method stub
 		if(health<=0){
 			g.setColor(Color.red);
 			g.drawRect((int)x-size, (int)y-size, health*-1,health*-1);
@@ -35,12 +36,15 @@ public class BigWraith extends Enemy {
 		g.setColor(Color.YELLOW);
 		g.drawOval((int)x-size, (int)y-size, size*2, size*2);
 		g.setColor(Color.MAGENTA);
-		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x-size*1.5+size*1.5*health/10), (int)y-6);
+		g.drawLine((int)(x-size*1.5), (int)y-6, (int)((x-size*1.5)+3*size*health/MAXHEALTH), (int)y-6);
+		//That machine looks awful on him right now. Lol
+//		for(Weapon i: weapons){
+//			i.draw(g, x, y, angle);
+//		}
 		
-		for(Weapon i: weapons){
-			i.draw(g, x, y, angle);
-		}
-
+		
+		
+		
 	}
 
 	public void target(Ship user){
@@ -50,7 +54,7 @@ public class BigWraith extends Enemy {
 		tyn = user.getY();
 		txn = user.getX();
 		{
-			getWeapons().get(1).setTarget(user);
+			//Weapon Cooldowns don't refresh right now if they are not drawn. I'll fix that.
 			shoot();
 			pursuit();
 			double a=tx-x, b=ty-y;

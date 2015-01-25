@@ -1,9 +1,7 @@
 package world.ship.weapons;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
 
-import world.ship.Ship;
 import world.ship.weapons.ammo.*;
 
 public class MissleLauncher extends Weapon{
@@ -11,14 +9,14 @@ public class MissleLauncher extends Weapon{
 		super();
 		size=0;
 		firerate=100;
+		//MaxRally controls how many rounds you can save in a weapon for a burst.
+		MaxRally=20;
 	}
 	
 	@Override
 	public void draw(Graphics g, double x, double y, double angle) {
 		// TODO Auto-generated method stub
-		if(cooldown>=-20*firerate){
-			cooldown--;
-		}
+		
 	}
 
 	@Override
@@ -31,12 +29,4 @@ public class MissleLauncher extends Weapon{
 		missle.setTarget(target);
 		return missle;
 	}
-	
-
-	@Override
-	public void update(double x, double y, ArrayList<Ship> enemies) {
-		
-	}
-	
-	
 }

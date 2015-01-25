@@ -2,9 +2,8 @@ package world.ship.weapons;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 
-import world.ship.Ship;
+
 import world.ship.weapons.ammo.*;
 
 public class MachineGun extends Weapon{
@@ -21,10 +20,6 @@ public class MachineGun extends Weapon{
 	@Override
 	public Ammo fire(double x, double y, double angle) {
 		return new Bullet(x, y, angle);
-	}
-	@Override
-	public void update(double x, double y, ArrayList<Ship> enemies) {
-		// TODO Auto-generated method stub
 	}
 	
 }
