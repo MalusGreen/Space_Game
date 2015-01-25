@@ -84,6 +84,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 //	ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		//FPS Timer
 		start=end;
 		end=System.nanoTime();

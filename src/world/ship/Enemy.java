@@ -34,9 +34,7 @@ public abstract class Enemy extends Ship{
 		// TODO Auto-generated method stub
 		//Movement
 		target(user);
-		ArrayList<Ship> temp=new ArrayList<Ship>();
-		temp.add(user);
-		super.update(temp);
+		super.update();
 	}
 	@Override
 	public abstract void drawShip(Graphics g);

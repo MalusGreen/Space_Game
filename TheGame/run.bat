@@ -1,2 +1,4 @@
 javac *.java
-java GameFrame
+pause
+java RUN
+pause

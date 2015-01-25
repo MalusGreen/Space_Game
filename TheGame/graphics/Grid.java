@@ -10,8 +10,8 @@ public class Grid {
 	float[][] opacity;
 	public Grid(Color c, int x, int y, int size){
 		color=c.getRGBColorComponents(null);
-		this.x=x;
-		this.y=y;
+		this.x=x+1;
+		this.y=y+1;
 		this.size=size;
 		randomize();
 	}
@@ -38,6 +38,10 @@ public class Grid {
 				g.fillRect(i*size, j*size, size, size);
 			}
 		}
+	}
+	
+	public void setColor(Color c){
+		color=c.getRGBColorComponents(null);
 	}
 	
 	public void randomize(){
