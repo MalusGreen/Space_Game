@@ -213,6 +213,12 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 				}
 			}
 		}
+		for(Ship enemy:enemies){
+			if(ship.getRect().intersects(enemy.getRect())){
+				ship.setHealth(ship.getHealth()-20);
+				enemy.setHealth(0);
+			}
+		}
 	}
 
 	@Override
