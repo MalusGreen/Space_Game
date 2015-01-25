@@ -85,6 +85,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//FPS Timer
+		System.out.println("Game.actionPerformed(): "+ship.getHealth());
 		start=end;
 		end=System.nanoTime();
 		if(start!=0&&end!=0)
