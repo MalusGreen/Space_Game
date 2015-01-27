@@ -38,7 +38,7 @@ public class BigWraith extends Enemy {
 		g.setColor(Color.YELLOW);
 		g.drawOval((int)x-size, (int)y-size, size*2, size*2);
 		g.setColor(Color.MAGENTA);
-		g.drawLine((int)(x-size*1.5), (int)y-6, (int)((x-size*1.5)+3*size*health/MAXHEALTH), (int)y-6);
+		g.drawLine((int)(x-size*1.5), (int)y-size-5, (int)(x+size*(3.0*health/MAXHEALTH-1.5)), (int)y-size-5);
 		//That machine looks awful on him right now. Lol
 //		for(Weapon i: weapons){
 //			i.draw(g, x, y, angle);

@@ -33,9 +33,11 @@ public class Ship {
 	protected double dx,dy;
 	protected double speed;
 	protected double x, y;
-	protected double sx, sy;
 	protected int size;
+	
+	//TODO The only purpose of this variable is to draw Engines. I think I should change this.
 	protected int accel;
+	
 	protected int MAXHEALTH;
 	protected int health;
 	protected int team;
@@ -74,8 +76,6 @@ public class Ship {
 		this.y=y;
 		dx=0;
 		dy=0;
-		sx=0;
-		sy=0;
 		accel=0;
 		alive=true;
 	}
@@ -173,7 +173,7 @@ public class Ship {
 	}
 	public void shoot(){
 		//TODO make arraylist of ammo so ammo can be sent from multiple weapons.
-		Ammo a=weapons.get(weapon).fire(x-sx,y-sy,angle);
+		Ammo a=weapons.get(weapon).fire(x,y,angle);
 		if(a!=null){
 			a.setTeam(team);
 			projectiles.add(a);

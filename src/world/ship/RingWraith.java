@@ -14,7 +14,8 @@ public class RingWraith extends Enemy{
 		team=1;
 		size=3;
 		speed=2.5;
-		health=1;
+		MAXHEALTH=1;
+		health=MAXHEALTH;
 	}
 	@Override
 	public void target(Ship user){
@@ -59,7 +60,7 @@ public class RingWraith extends Enemy{
 		g.setColor(Color.yellow);
 		g.drawOval((int)x-size, (int)y-size, size*2, size*2);
 		g.setColor(Color.green);
-		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x+size*1.5*health/1), (int)y-6);
+		g.drawLine((int)(x-size*1.5), (int)y-size-5, (int)(x+size*(3.0*health/MAXHEALTH-1.5)), (int)y-size-5);
 	}
 	
 	//Movement algorithm

@@ -7,6 +7,11 @@ import java.util.Map;
 
 public class DefFont extends Font{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public DefFont(Font font) {
 		super(font);
 		// TODO Auto-generated constructor stub

@@ -58,12 +58,12 @@ public class GameFrame extends JFrame implements ActionListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
 		for(int i=0;i<menu.colors.length;i++){
 			if(e.getSource()==menu.colors[i]){
 				cards.show(c, "Show Game");
 				game.requestFocus();
 				game.setColor(colors[i]);
+				game.getTimer().start();
 			}
 		}
 		if(e.getSource()==timer){

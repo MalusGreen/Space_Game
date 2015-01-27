@@ -1,6 +1,5 @@
 package world.ship;
 import java.awt.Graphics;
-import java.util.ArrayList;
 
 public abstract class Enemy extends Ship{
 	/* Enemy has all the functions of Ship, 

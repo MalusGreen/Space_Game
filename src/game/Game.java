@@ -11,6 +11,8 @@ import javax.swing.*;
 
 import world.ship.*;
 import world.ship.weapons.ammo.*;
+import world.terrain.Debris;
+import world.terrain.Terrain;
 
 
 public class Game extends JPanel implements KeyListener, ActionListener{
@@ -22,11 +24,12 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	private Pixel[] pixels_2;
 	private ArrayList<Ship> enemies;
 	private ArrayList<Ammo> projectiles;
+	private ArrayList<Terrain> terrain; 
 	private Grid grid;
 	private Ship ship;
-	private boolean left, right, up, down, space;
+	private boolean left, right, up, down, space, tab;
 	private JLabel FPS;
-	private long start, end;
+	private long start, end, elapsed;
 	
 	//So we have a bit more fun testing it.
 	private int difficulty;
@@ -48,7 +51,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		ship=new Ship(100,100,"Player");
 		enemies=new ArrayList<Ship>();
 		projectiles=new ArrayList<Ammo>();
-		
+		terrain=new ArrayList<Terrain>();
 		
 		ship.setAmmoList(projectiles);
 		setBackground(new Color(0, 0, 0));
@@ -56,15 +59,15 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		
 		addRingShip(difficulty);
 		addBigShip(difficulty%5/5);
-		
+		addTerrain(25);
 		
 		addKeyListener(this);
+		setFocusTraversalKeysEnabled(false);
+		
+		//FPS show.
 		FPS=new JLabel();
 		FPS.setForeground(Color.white);
-		if(start!=0&&end!=0)
-			FPS.setText("FPS: "+1/((start-end)/1000000000.0));
 		add(FPS);
-		timer.start();
 	}
 	
 //	Generates Enemies
@@ -80,23 +83,37 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			enemies.add(new BigWraith(Math.random()*getWidth()+200,Math.random()*getHeight()+500));
 		}
 	}
+	
+	private void addTerrain(int n){
+		for(int i=0;i<n;i++){
+			terrain.add(new Debris(Math.random()*getWidth(),Math.random()*getHeight(),10));
+		}
+	}
 		
 //	ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//FPS Timer
-		System.out.println("Game.actionPerformed(): "+ship.getHealth());
-		start=end;
-		end=System.nanoTime();
-		if(start!=0&&end!=0)
-			FPS.setText("Difficulty Level: "+difficulty/5+"   FPS: "+1000000000/((end-start)));
+//		System.out.println("Game.actionPerformed(): "+ship.getHealth());
+		if(e.getSource()==timer){
+			
+			end=System.nanoTime();
+			elapsed++;
+			if(end!=0&&elapsed==10){
+				elapsed=0;
+				FPS.setText("Difficulty Level: "+difficulty/5+"   FPS: "+1000000000/((end-start)/10));
+				start=end;
+			}
+			//Keypressed stuff.
+			updateKeys();
+			ship.update();
+	//		Checks collision and removes bullets.
+			updateBullets();
+			updateCollision();
+			updateTerrain();
+			updateEnemies();
+		}
 		
-		//Keypressed stuff.
-		updateKeys();
-//		Checks collision and removes bullets.
-		updateBullets();
-		updateCollision();
-		updateEnemies();
 		repaint();
 	}
 		
@@ -132,6 +149,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		else if(e.getKeyCode()==KeyEvent.VK_2){
 			ship.switchWeapon(1);
 		}
+		else if(e.getKeyCode()==KeyEvent.VK_TAB){
+			tab=true;
+		}
 	}
 
 	@Override
@@ -159,6 +179,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		}
 		else if(e.getKeyCode()==32){
 			space=false;
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_TAB){
+			tab=false;
 		}
 	}
 
@@ -212,33 +235,49 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	}
 
 	private void updateCollision(){
-		for(Ammo ammo:projectiles){
-			if(ammo.getRect().intersects(ship.getRect())&&ammo.getTeam()!=ship.getTeam()){
-				ship.setHealth(ship.getHealth()-ammo.getDamage());
-				ammo.setRange(0);
-			}
-		}
-		for(Ship ship: enemies){
-			for(Ammo ammo:projectiles){
-				if(ammo.getRect().intersects(ship.getRect())&&ammo.getTeam()!=ship.getTeam()){
-					ship.setHealth(ship.getHealth()-ammo.getDamage());
-					ammo.setRange(0);
+		for(Terrain t:terrain){
+			for(Ship e: enemies){
+				if(t.getRect().intersects(e.getRect())){
+					t.setHealth(t.getHealth()-e.getHealth());
+					e.setAlive(false);
 				}
 			}
+			for(Ammo a:projectiles){
+				if(t.getRect().intersects(a.getRect())){
+					t.setHealth(t.getHealth()-a.getDamage());
+					a.setRange(0);
+				}
+			}
+			if(ship.getRect().intersects(t.getRect())){
+				t.setHealth(t.getHealth()-ship.getHealth());
+				ship.setHealth(ship.getHealth()-t.getHealth());
+			}
 		}
-		for(Ship enemy:enemies){
-			if(ship.getRect().intersects(enemy.getRect())){
+		for(Ammo a:projectiles){
+			if(a.getRect().intersects(ship.getRect())&&a.getTeam()!=ship.getTeam()){
+				ship.setHealth(ship.getHealth()-a.getDamage());
+				a.setRange(0);
+			}
+		}
+		for(Ship e: enemies){
+			for(Ammo a:projectiles){
+				if(a.getRect().intersects(e.getRect())&&a.getTeam()!=e.getTeam()){
+					e.setHealth(e.getHealth()-a.getDamage());
+					a.setRange(0);
+				}
+			}
+			if(ship.getRect().intersects(e.getRect())){
 				ship.setHealth(ship.getHealth()-20);
-				enemy.setHealth(0);
+				e.setAlive(false);
 			}
 		}
 	}
 	
 	private void updateEnemies(){
 		if(enemies.isEmpty()){
+			difficulty+=5;
 			addRingShip(difficulty/2);
 			addBigShip(difficulty/5);
-			difficulty+=5;
 		}
 		else {
 			for(int i=0;i<enemies.size();i++){
@@ -258,15 +297,27 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			}
 		}
 	}
+	
+	private void updateTerrain(){
+		for(int i=0;i<terrain.size();i++){
+			if(terrain.get(i).getHealth()<=0){
+				terrain.remove(i);
+				i--;
+				continue;
+			}
+			terrain.get(i).update();
+		}
+	}
 
 	@Override
 	public void paintComponent(Graphics g){
+		g.translate(0,0);
 		super.paintComponent(g);
 		drawBackground(g);
 		drawEnemies(g);
 		drawBullets(g);
+		drawTerrain(g);
 		ship.draw(g);
-		ship.update();
 	}
 
 	
@@ -283,6 +334,15 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		for(Ship s: enemies){
 			Enemy e=(Enemy) s;
 			e.drawShip(g);
+		}
+	}
+	
+	private void drawTerrain(Graphics g){
+		for(Terrain t: terrain){
+			t.draw(g);
+			if(tab){
+				t.drawHealth(g);
+			}
 		}
 	}
 	
@@ -318,5 +378,8 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	
 	public void setColor(Color color){
 		grid.setColor(color);
+	}
+	public Timer getTimer(){
+		return timer;
 	}
 }
