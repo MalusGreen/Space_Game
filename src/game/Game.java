@@ -152,6 +152,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		else if(e.getKeyCode()==KeyEvent.VK_TAB){
 			tab=true;
 		}
+		else if(e.getKeyCode()==KeyEvent.VK_E){
+			timer.stop();
+		}
 	}
 
 	@Override
@@ -182,6 +185,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_TAB){
 			tab=false;
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_E){
+			timer.start();
 		}
 	}
 
@@ -247,10 +253,6 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 					t.setHealth(t.getHealth()-a.getDamage());
 					a.setRange(0);
 				}
-			}
-			if(ship.getRect().intersects(t.getRect())){
-				t.setHealth(t.getHealth()-ship.getHealth());
-				ship.setHealth(ship.getHealth()-t.getHealth());
 			}
 		}
 		for(Ammo a:projectiles){

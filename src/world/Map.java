@@ -7,9 +7,16 @@ import world.terrain.Terrain;
 
 public class Map {
 	ArrayList<Terrain> terrain;
-	public Map(){
+	String system;
+	public Map(String name){
+		system=name;
 		terrain=new ArrayList<Terrain>();
 	}
+	
+	public void addTerrain(Terrain t){
+		terrain.add(t);
+	}
+	
 	public void draw(Graphics g){
 		for(Terrain t:terrain){
 			t.draw(g);

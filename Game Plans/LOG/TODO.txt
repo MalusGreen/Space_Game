@@ -1,0 +1,30 @@
+https://docs.google.com/document/d/17w4SwIy_gkDzfHDI4dqByLAlPJL3e0WQvkseCD0CXvw/edit?usp=sharing
+
+Shooter:
+	Real Collision - Incomplete
+		- collision between ships and terrain should stop movement
+		- debris should no longer kill player
+		- momentum transfer from ammo to terrain. eg. when missle hits debris it should push it away (inertia: size=mass)
+	
+	Bullets Effects - Incomplete
+		-missles create effects such as "Explosions" that last for certain numbers of frames
+		-shell creates new bullets as shrapnel
+		-etc. have fun with this.
+		//Consider creating an Effects class? Or maybe just make "Explosions" an ammo type. Some along the lines of stuff like that.
+
+	Death Effects - Incomplete
+		-create some death effects so we actually know when the enemies have died.
+		//Consider death animations, if not then just make some red rectangles appear when they die
+		//Consider making debris when enemies die.
+	
+	Terrain DEFENSIE UNITS- Incomplete
+		- create some defensive turret type units, you can rearrange the package path as you see fit.
+		
+
+	Terrain Effects - Incomplete
+		- create some terrain with effects that can be activated by moving over them and/or pressing a button
+		//Future uses may possibly include Triggers for game events. Entrance into certain areas such as planets, abandoned ships, etc.
+
+Overworld:
+	Creations of Sectors and Worlds/Planets - Incomplete
+	
