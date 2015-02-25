@@ -5,10 +5,13 @@ import graphics.Pixel;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
+import world.World;
 import world.ship.*;
 import world.ship.weapons.ammo.*;
 import world.terrain.Debris;
@@ -24,7 +27,8 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	private Pixel[] pixels_2;
 	private ArrayList<Ship> enemies;
 	private ArrayList<Ammo> projectiles;
-	private ArrayList<Terrain> terrain; 
+	private ArrayList<Terrain> terrain;
+	private World galaxy;
 	private Grid grid;
 	private Ship ship;
 	private boolean left, right, up, down, space, tab;
@@ -42,7 +46,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		INBATTLE, GAMEOVER;
 	}
 	
-	public Game(){
+	public Game() throws FileNotFoundException, IOException{
 		super();
 		setSize(1000,800);
 		
@@ -57,9 +61,12 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		setBackground(new Color(0, 0, 0));
 		setBackground(50);
 		
-		addRingShip(difficulty);
-		addBigShip(difficulty%5/5);
-		addTerrain(25);
+		galaxy=new World();
+		galaxy.readWorld("World_2.txt");
+
+//		addRingShip(difficulty);
+//		addBigShip(difficulty%5/5);
+//		addTerrain(25);
 		
 		addKeyListener(this);
 		setFocusTraversalKeysEnabled(false);
@@ -108,12 +115,11 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			updateKeys();
 			ship.update();
 	//		Checks collision and removes bullets.
-			updateBullets();
-			updateCollision();
-			updateTerrain();
-			updateEnemies();
+//			updateBullets();
+//			updateCollision();
+//			updateTerrain();
+//			updateEnemies();
 		}
-		
 		repaint();
 	}
 		
@@ -170,6 +176,8 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_S){
 			down=false;
+			//TODO Actual Camera and sector panning, then enemies, spawners and 
+			galaxy.nextSystem();
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_UP){
 			up=false;
@@ -316,9 +324,10 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		g.translate(0,0);
 		super.paintComponent(g);
 		drawBackground(g);
-		drawEnemies(g);
-		drawBullets(g);
-		drawTerrain(g);
+//		drawEnemies(g);
+//		drawBullets(g);
+//		drawTerrain(g);
+		galaxy.draw(g);
 		ship.draw(g);
 	}
 

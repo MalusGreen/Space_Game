@@ -13,6 +13,10 @@ public class Map {
 		terrain=new ArrayList<Terrain>();
 	}
 	
+	public String getSystem(){
+		return system;
+	}
+	
 	public void addTerrain(Terrain t){
 		terrain.add(t);
 	}

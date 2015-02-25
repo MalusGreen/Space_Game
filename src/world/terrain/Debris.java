@@ -7,8 +7,8 @@ public class Debris extends Terrain{
 	public Debris(double x, double y, int size){
 		this.x=x;
 		this.y=y;
-		this.dx=Math.random()*2-1;
-		this.dy=Math.random()*2-1;
+//		this.dx=Math.random()*2-1;
+//		this.dy=Math.random()*2-1;
 		
 
 		this.size=(int)(Math.random()*size)+5;

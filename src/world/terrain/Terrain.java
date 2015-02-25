@@ -11,6 +11,11 @@ public abstract class Terrain {
 	protected double dx,dy;
 	protected int size;
 	protected int[] color;
+	
+	protected String type;
+	protected String location;
+	protected String id;
+	
 	public Terrain(){
 		
 	}
@@ -26,6 +31,15 @@ public abstract class Terrain {
 			System.out.println("Terrain.drawHealth(): health"+health);
 			System.out.println("Terrain.drawHealth(): MAXHEALTH"+MAXHEALTH);
 		}
+	}
+	public void setType(String TYPE){
+		type=TYPE;
+	}
+	public void setLocation(String LOCATION){
+		location=LOCATION;
+	}
+	public void setID(String ID){
+		id=ID;
 	}
 	public Rectangle getRect(){
 		return new Rectangle((int)(x-size),(int)(y-size),(int)size*2,(int)size*2);

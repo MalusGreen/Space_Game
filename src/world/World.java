@@ -4,14 +4,27 @@ import java.awt.Graphics;
 import java.io.*;
 import java.util.ArrayList;
 
+import world.terrain.Debris;
+import world.terrain.Spawner;
+import world.terrain.Terrain;
+
 public class World {
 	Map[] sectors;
+	int system;
 	public World(){
-		
+		system=0;
 	}
 	public void draw(Graphics g){
-		sectors[0].draw(g);
+		sectors[system].draw(g);
 	}
+	public void nextSystem(){
+		system++;
+		system%=sectors.length;
+	}
+	public void changeSystem(int c){
+		system=c;
+	}
+	
 	public void createWorld() throws IOException{
 //		BufferedWriter writer = null;
 //		BufferedReader reader = null;
@@ -23,29 +36,56 @@ public class World {
 	
 	public void readWorld(String path) throws FileNotFoundException, IOException{
 		try(BufferedReader reader=new BufferedReader(new FileReader(path))){
-			String input;
+			String input, cluster;
 			String input_list[];
 			int size, num;
+			Terrain item;
 			
 			input=reader.readLine();
-			sectors=new Map[Integer.parseInt(input.substring(input.indexOf(":"), input.indexOf("]")))];
+			sectors=new Map[Integer.parseInt(input.substring(input.indexOf(":")+1, input.indexOf("]")))];
 			for(int i=0;i<sectors.length;i++){
 				
 				//Creating System.
 				input=reader.readLine();
-				sectors[i]=new Map(input.substring(input.indexOf(":"), input.indexOf("]")));
+				sectors[i]=new Map(input.substring(input.indexOf(":")+1, input.indexOf("]")));
 				
 				//Creating Debris.
 				input=reader.readLine();
-				input_list=input.substring(input.indexOf(":"), input.indexOf("]")).split(":");
+				input_list=input.substring(input.indexOf(":")+1, input.indexOf("]")).split(":");
 				num=Integer.parseInt(input_list[0]);
 				size=Integer.parseInt(input_list[1]);
 				
-				
-				while(){
-					for(int t=0;t<){
+				input=reader.readLine();
+				while(input.substring(input.indexOf("[")+1,input.indexOf(":")).equals("CLUSTER")){
+//					cluster=input.substring(input.indexOf);
+
+					//Debris
+					for(int t=0;t<num;t++){
 						
+						//Input
+						input=reader.readLine();
+						input_list=input.split(" ");
+						
+						//Gen
+						item=new Debris(Integer.parseInt(input_list[0]),Integer.parseInt(input_list[1]),size);
+						item.setType("CLUSTER");
+						item.setLocation(sectors[i].getSystem().charAt(0)+input_list[0]+sectors[i].getSystem().charAt(0)+input_list[1]);
+						item.setID("X:"+input_list[0]+" Y:"+input_list[1]);
+						sectors[i].addTerrain(item);
 					}
+					input=reader.readLine();
+				}
+				//Spawners
+				input=input.substring(input.indexOf(":")+1,input.indexOf("]"));
+				num=Integer.parseInt(input);
+				
+				for(int s=0;s<num;s++){
+					//Input
+					input=reader.readLine();
+					input_list=input.split(" ");
+					
+					//Gen
+					item=new Spawner((int)(Math.random()*i),Integer.parseInt(input_list[0]),Integer.parseInt(input_list[1]));
 				}
 			}
 		}
@@ -86,27 +126,27 @@ public class World {
 		int x,y,num,size;
 		double angle,r;
 		//Sector Gen
-		data+="[WORLD_SIZE:"+worldSize+"]\n";
+		data+="[WORLD_SIZE:"+worldSize+"]\r\n";
 		for(int i=1;i<=worldSize;i++){
-			data+="[SYSTEM:"+input[i]+"]\n";
-			data+="[DEBRIS:20:"+debrisDensity*(int)(Math.random()*3+1)+"]\n";
+			data+="[SYSTEM:"+input[i]+"]\r\n";
+			data+="[DEBRIS:20:"+debrisDensity*(int)(Math.random()*3+1)+"]\r\n";
 			//Cluster Gen
 			for(int a=0;a<debrisDensity;a++){
 				x=(int)(Math.random()*1000);
-				y=(int)(Math.random()*1000);
-				data+="[CLUSTER:"+x+":"+y+"]\n";
+				y=(int)(Math.random()*800);
+				data+="[CLUSTER:"+x+":"+y+"]\r\n";
 				for(int n=0;n<20;n++){
-					r=Math.random()*500;
+					r=Math.random()*150;
 					angle=Math.random()*Math.PI*2;
-					data+=(x+(int)(r*Math.cos(angle)))+" "+(y+(int)(r*Math.sin(angle)))+"\n";
+					data+=(x+(int)(r*Math.cos(angle)))+" "+(y+(int)(r*Math.sin(angle)))+"\r\n";
 				}
 			}
 			num=(int)(difficulty+Math.random()*2*i);
-			data+="[SPAWNERS:"+num+"]\n";
+			data+="[SPAWNERS:"+num+"]\r\n";
 			for(int b=0;b<num;b++){
 				x=(int)(Math.random()*1000);
 				y=(int)(Math.random()*1000);
-				data+=x+" "+y+"\n";
+				data+=x+" "+y+"\r\n";
 			}
 		}
 		System.out.println(data);

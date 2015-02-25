@@ -2,6 +2,7 @@ package game;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -17,10 +18,10 @@ public class GameFrame extends JFrame implements ActionListener{
 	static Menu menu;
 	static CardLayout cards;
 	static Color[] colors=new Color[]{Color.red,Color.orange,Color.cyan,Color.green,Color.yellow};
-	public static void main(String args[]){
+	public static void main(String args[]) throws IOException{
 		new GameFrame("Space Game").setVisible(true);
 	}
-	public GameFrame(String name){
+	public GameFrame(String name) throws IOException{
 		super(name);
 		setSize(1000, 800);
 		setResizable(true);
