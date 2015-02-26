@@ -7,4 +7,10 @@ public class Camera {
 		x=0;
 		y=0;
 	}
+	
+	public void center(int x, int y){
+		System.out.println("CAMERA: "+x+" "+y);
+		this.x=-x+500;
+		this.y=-y+400;
+	}
 }

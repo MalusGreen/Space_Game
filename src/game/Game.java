@@ -28,9 +28,12 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	private ArrayList<Ship> enemies;
 	private ArrayList<Ammo> projectiles;
 	private ArrayList<Terrain> terrain;
+	
 	private World galaxy;
 	private Grid grid;
 	private Ship ship;
+	private Camera cam;
+	
 	private boolean left, right, up, down, space, tab;
 	private JLabel FPS;
 	private long start, end, elapsed;
@@ -75,6 +78,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		FPS=new JLabel();
 		FPS.setForeground(Color.white);
 		add(FPS);
+		
+		//Camera
+		cam=new Camera();
 	}
 	
 //	Generates Enemies
@@ -114,9 +120,10 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			//Keypressed stuff.
 			updateKeys();
 			ship.update();
+			cam.center((int)ship.getX(), (int)ship.getY());
 	//		Checks collision and removes bullets.
-//			updateBullets();
-//			updateCollision();
+			updateBullets();
+			updateCollision();
 //			updateTerrain();
 //			updateEnemies();
 		}
@@ -321,14 +328,15 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 
 	@Override
 	public void paintComponent(Graphics g){
-		g.translate(0,0);
 		super.paintComponent(g);
+		g.translate(cam.x,cam.y);
 		drawBackground(g);
 //		drawEnemies(g);
-//		drawBullets(g);
+		drawBullets(g);
 //		drawTerrain(g);
 		galaxy.draw(g);
 		ship.draw(g);
+		g.translate(-cam.x, -cam.y);
 	}
 
 	

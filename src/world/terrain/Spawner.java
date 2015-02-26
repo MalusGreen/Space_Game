@@ -12,7 +12,7 @@ public class Spawner extends Terrain{
 	public Spawner(int type, double x, double y){
 		this.x=x;
 		this.y=y;
-		this.size=10;
+		this.size=8;
 		switch(type){
 		case 1:
 			e=new RingWraith(x,y);
@@ -28,7 +28,7 @@ public class Spawner extends Terrain{
 	}
 	@Override
 	public void draw(Graphics g) {
-		g.setColor(new Color(255,25,255));
+		g.setColor(new Color(255,0,255));
 		g.drawOval((int)x-size, (int)y-size, size*2, size*2);
 		g.setColor(new Color(255,25,255,50));
 		g.fillOval((int)x-size, (int)y-size, size*2, size*2);
