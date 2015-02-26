@@ -83,9 +83,13 @@ public class World {
 					//Input
 					input=reader.readLine();
 					input_list=input.split(" ");
-					
+					size=(int)(Math.random()*i);
 					//Gen
-					item=new Spawner((int)(Math.random()*i),Integer.parseInt(input_list[0]),Integer.parseInt(input_list[1]));
+					item=new Spawner(size,Integer.parseInt(input_list[0]),Integer.parseInt(input_list[1]));
+					item.setType("SPAWNER");
+					item.setLocation(sectors[i].getSystem().charAt(0)+input_list[0]+sectors[i].getSystem().charAt(0)+input_list[1]);
+					item.setID("TYPE: "+size);
+					sectors[i].addTerrain(item);
 				}
 			}
 		}
