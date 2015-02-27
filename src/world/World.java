@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.io.*;
 import java.util.ArrayList;
 
+import world.ship.Enemy;
+import world.ship.Ship;
 import world.terrain.Debris;
 import world.terrain.Spawner;
 import world.terrain.Terrain;
@@ -20,9 +22,12 @@ public class World {
 	public void nextSystem(){
 		system++;
 		system%=sectors.length;
+		changeSystem(system);
 	}
 	public void changeSystem(int c){
 		system=c;
+		Terrain.terrain=sectors[system].terrain;
+		Terrain.enemies=sectors[system].enemies;
 	}
 	
 	public void createWorld() throws IOException{
@@ -83,7 +88,7 @@ public class World {
 					//Input
 					input=reader.readLine();
 					input_list=input.split(" ");
-					size=(int)(Math.random()*i);
+					size=(int)(Math.round(Math.random()*1.5));
 					//Gen
 					item=new Spawner(size,Integer.parseInt(input_list[0]),Integer.parseInt(input_list[1]));
 					item.setType("SPAWNER");
@@ -93,6 +98,8 @@ public class World {
 				}
 			}
 		}
+		
+		changeSystem(0);
 	}
 	
 	private int saveNum(){
@@ -123,7 +130,6 @@ public class World {
 		}
 		worldSize*=(Math.random()*6+1+6*(worldSize-1));
 		debrisDensity*=(Math.random()*3+1);
-		difficulty*=5;
 		
 		String [] input=reader.readLine().split(":");
 		//Starting co-ords for clusters.
@@ -181,5 +187,17 @@ public class World {
 			default:
 				return -1;
 		}
+	}
+	
+	
+	////////
+	////////
+	
+	public ArrayList<Terrain> getTerrain(){
+		return sectors[system].terrain;
+	}
+	
+	public ArrayList<Ship> getEnemy(){
+		return sectors[system].enemies;
 	}
 }

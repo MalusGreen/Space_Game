@@ -124,8 +124,8 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	//		Checks collision and removes bullets.
 			updateBullets();
 			updateCollision();
-//			updateTerrain();
-//			updateEnemies();
+			updateTerrain();
+			updateEnemies();
 		}
 		repaint();
 	}
@@ -185,6 +185,8 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			down=false;
 			//TODO Actual Camera and sector panning, then enemies, spawners and 
 			galaxy.nextSystem();
+			terrain=galaxy.getTerrain();
+			enemies=galaxy.getEnemy();
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_UP){
 			up=false;
@@ -291,26 +293,19 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	}
 	
 	private void updateEnemies(){
-		if(enemies.isEmpty()){
-			difficulty+=5;
-			addRingShip(difficulty/2);
-			addBigShip(difficulty/5);
-		}
-		else {
-			for(int i=0;i<enemies.size();i++){
-				Enemy e=(Enemy) enemies.get(i);
-	//			if(e.getHealth()<=-10){
-	//				enemies.remove(e);
-	//				i--;
-	//				continue;
-	//			}
-				if(e.isAlive()){
-					e.update(ship);
-				}
-				else{
-					enemies.remove(e);
-					i--;
-				}
+		for(int i=0;i<enemies.size();i++){
+			Enemy e=(Enemy) enemies.get(i);
+//			if(e.getHealth()<=-10){
+//				enemies.remove(e);
+//				i--;
+//				continue;
+//			}
+			if(e.isAlive()){
+				e.update(ship);
+			}
+			else{
+				enemies.remove(e);
+				i--;
 			}
 		}
 	}
@@ -331,10 +326,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		super.paintComponent(g);
 		g.translate(cam.x,cam.y);
 		drawBackground(g);
-//		drawEnemies(g);
+		drawEnemies(g);
 		drawBullets(g);
-//		drawTerrain(g);
-		galaxy.draw(g);
+		drawTerrain(g);
 		ship.draw(g);
 		g.translate(-cam.x, -cam.y);
 	}

@@ -3,6 +3,10 @@ package world.terrain;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+
+import world.ship.Enemy;
+import world.ship.Ship;
 
 public abstract class Terrain {
 	protected int MAXHEALTH;
@@ -16,6 +20,8 @@ public abstract class Terrain {
 	protected String location;
 	protected String id;
 	
+	public static ArrayList<Terrain> terrain;
+	public static ArrayList<Ship> enemies;
 	public Terrain(){
 		
 	}
@@ -50,5 +56,9 @@ public abstract class Terrain {
 	public int getHealth() {
 		// TODO Auto-generated method stub
 		return health;
+	}
+	public Terrain newInstance(){
+		return null;
+		
 	}
 }

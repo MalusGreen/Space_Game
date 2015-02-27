@@ -3,14 +3,18 @@ package world;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import world.ship.Enemy;
+import world.ship.Ship;
 import world.terrain.Terrain;
 
 public class Map {
 	ArrayList<Terrain> terrain;
+	ArrayList<Ship> enemies;
 	String system;
 	public Map(String name){
 		system=name;
 		terrain=new ArrayList<Terrain>();
+		enemies=new ArrayList<Ship>();
 	}
 	
 	public String getSystem(){
@@ -24,7 +28,6 @@ public class Map {
 	public void draw(Graphics g){
 		for(Terrain t:terrain){
 			t.draw(g);
-			t.update();
 		}
 	}
 }
