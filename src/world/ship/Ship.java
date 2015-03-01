@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import world.World;
 import world.ship.weapons.*;
 import world.ship.weapons.ammo.Ammo;
 
@@ -47,7 +48,6 @@ public class Ship {
 	protected int weapon;
 //	protected Ship target;
 //	protected ArrayList<Terrain> map;
-	protected static ArrayList<Ammo> projectiles;
 
 	protected ArrayList<Weapon> weapons=new ArrayList<Weapon>();
 	
@@ -68,6 +68,7 @@ public class Ship {
 		
 		weapons.add(new MachineGun());
 		weapons.add(new MissleLauncher());
+		weapons.add(new Spitter());
 	}
 	
 	private void initVars(double x, double y){
@@ -82,10 +83,6 @@ public class Ship {
 	
 	public void setWorld(){
 		
-	}
-	
-	public void setAmmoList(ArrayList<Ammo> projectiles){
-		Ship.projectiles=projectiles;
 	}
 	//Targets closest Enemy
 	
@@ -127,9 +124,7 @@ public class Ship {
 		drawHealth(g);
 	}
 	protected void drawWeapons(Graphics g){
-		for(Weapon i: weapons){
-			i.draw(g, x, y, angle);
-		}
+		weapons.get(weapon).draw(g,x,y,angle);
 	}
 	protected void drawEngine(Graphics g){
 		if(accel>0){
@@ -176,10 +171,18 @@ public class Ship {
 		Ammo a=weapons.get(weapon).fire(x,y,angle);
 		if(a!=null){
 			a.setTeam(team);
-			projectiles.add(a);
+			World.getBullets().add(a);
 		}
 	}
 	
+	public void crash(){
+//		System.out.println("Ship: Temp Crash");
+		dx*=-0.5;
+		dy*=-0.5;
+		x+=dx*2;
+		y+=dy*2;
+		health-=10;
+	}
 	
 	//Getters and Setters
 	public void setAngle(double angle) {
@@ -199,6 +202,10 @@ public class Ship {
 	}
 	public int getHealth(){
 		return health;
+	}
+	
+	public double getSize() {
+		return size;
 	}
 
 	public double getDx() {

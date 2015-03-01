@@ -13,7 +13,7 @@ public class Missle extends Ammo{
 	}
 	@Override
 	public void update() {
-		if(range<450&&target!=null){
+		if(range<450&&target!=null&&target.isAlive()){
 			tx=target.getX();
 			ty=target.getY();
 			double a=tx-x, b=ty-y;

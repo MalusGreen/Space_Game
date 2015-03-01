@@ -22,8 +22,8 @@ public abstract class Weapon {
 	
 	//Updates cooldowns.
 	public void update(){
-		if(cooldown>=-MaxRally*firerate){
-			cooldown--;
+		if(cooldown<=MaxRally*firerate){
+			cooldown++;
 		}
 	}
 	

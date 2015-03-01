@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import world.ship.Enemy;
 import world.ship.Ship;
+import world.ship.weapons.ammo.Ammo;
 import world.terrain.Debris;
 import world.terrain.Spawner;
 import world.terrain.Terrain;
@@ -13,8 +14,14 @@ import world.terrain.Terrain;
 public class World {
 	Map[] sectors;
 	int system;
+	public static ArrayList<Terrain> terrain;
+	public static ArrayList<Ship> enemies;
+	public static ArrayList<Ammo> bullets;
 	public World(){
 		system=0;
+		terrain=new ArrayList<Terrain>();
+		enemies=new ArrayList<Ship>();
+		bullets=new ArrayList<Ammo>();
 	}
 	public void draw(Graphics g){
 		sectors[system].draw(g);
@@ -26,15 +33,17 @@ public class World {
 	}
 	public void changeSystem(int c){
 		system=c;
-		Terrain.terrain=sectors[system].terrain;
-		Terrain.enemies=sectors[system].enemies;
+		terrain=sectors[system].terrain;
+		enemies=sectors[system].enemies;
+		bullets=sectors[system].bullets;
 	}
 	
 	public void createWorld() throws IOException{
 //		BufferedWriter writer = null;
 //		BufferedReader reader = null;
 		String fileName="World_"+saveNum()+".txt";
-		try(BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));BufferedReader reader=new BufferedReader(new FileReader("WorldGen.txt"))){
+		try(BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
+				BufferedReader reader=new BufferedReader(new FileReader("WorldGen.txt"))){
 			writer.write(newWorld(reader));
 		}
 	}
@@ -98,7 +107,6 @@ public class World {
 				}
 			}
 		}
-		
 		changeSystem(0);
 	}
 	
@@ -138,7 +146,7 @@ public class World {
 		//Sector Gen
 		data+="[WORLD_SIZE:"+worldSize+"]\r\n";
 		for(int i=1;i<=worldSize;i++){
-			data+="[SYSTEM:"+input[i]+"]\r\n";
+			data+="[SYSTEM:"+input[i%26]+"]\r\n";
 			data+="[DEBRIS:20:"+debrisDensity*(int)(Math.random()*3+1)+"]\r\n";
 			//Cluster Gen
 			for(int a=0;a<debrisDensity;a++){
@@ -193,11 +201,15 @@ public class World {
 	////////
 	////////
 	
-	public ArrayList<Terrain> getTerrain(){
-		return sectors[system].terrain;
+	public static ArrayList<Terrain> getTerrain(){
+		return terrain;
 	}
 	
-	public ArrayList<Ship> getEnemy(){
-		return sectors[system].enemies;
+	public static ArrayList<Ship> getEnemy(){
+		return enemies;
+	}
+	
+	public static ArrayList<Ammo> getBullets(){
+		return bullets;
 	}
 }

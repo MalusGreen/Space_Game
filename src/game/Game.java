@@ -53,27 +53,36 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		super();
 		setSize(1000,800);
 		
-		difficulty=1;
-		timer=new Timer(12,this);
-		ship=new Ship(100,100,"Player");
-		enemies=new ArrayList<Ship>();
-		projectiles=new ArrayList<Ammo>();
-		terrain=new ArrayList<Terrain>();
-		
-		ship.setAmmoList(projectiles);
-		setBackground(new Color(0, 0, 0));
-		setBackground(50);
-		
-		galaxy=new World();
-		galaxy.readWorld("World_2.txt");
-
-//		addRingShip(difficulty);
-//		addBigShip(difficulty%5/5);
-//		addTerrain(25);
+		initVar();
+		initGraphics();
+		initWorld("World_2.txt");
+		initMisc();
 		
 		addKeyListener(this);
 		setFocusTraversalKeysEnabled(false);
+	}
+	
+	private void initVar(){
+		difficulty=1;
+		timer=new Timer(12,this);
+		ship=new Ship(100,100,"Player");
 		
+	}
+	
+	private void initGraphics(){
+		setBackground(new Color(0, 0, 0));
+		setBackground(50);
+	}
+	
+	private void initWorld(String path) throws FileNotFoundException, IOException{
+		galaxy=new World();
+		galaxy.readWorld(path);
+		terrain=World.getTerrain();
+		enemies=World.getEnemy();
+		projectiles=World.getBullets();
+	}
+	
+	private void initMisc(){
 		//FPS show.
 		FPS=new JLabel();
 		FPS.setForeground(Color.white);
@@ -81,26 +90,6 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		
 		//Camera
 		cam=new Camera();
-	}
-	
-//	Generates Enemies
-	private void addRingShip(int n){
-		for(int i=0;i<n;i++){
-			enemies.add(new RingWraith(Math.random()*getWidth()+200,Math.random()*getHeight()+500));
-//			enemies.add(new RingWraith(200,500));
-		}
-	}
-	
-	private void addBigShip(int n){
-		for(int i=0;i<n;i++){
-			enemies.add(new BigWraith(Math.random()*getWidth()+200,Math.random()*getHeight()+500));
-		}
-	}
-	
-	private void addTerrain(int n){
-		for(int i=0;i<n;i++){
-			terrain.add(new Debris(Math.random()*getWidth(),Math.random()*getHeight(),10));
-		}
 	}
 		
 //	ActionListener
@@ -162,6 +151,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		else if(e.getKeyCode()==KeyEvent.VK_2){
 			ship.switchWeapon(1);
 		}
+		else if(e.getKeyCode()==KeyEvent.VK_3){
+			ship.switchWeapon(2);
+		}
 		else if(e.getKeyCode()==KeyEvent.VK_TAB){
 			tab=true;
 		}
@@ -185,8 +177,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			down=false;
 			//TODO Actual Camera and sector panning, then enemies, spawners and 
 			galaxy.nextSystem();
-			terrain=galaxy.getTerrain();
-			enemies=galaxy.getEnemy();
+			terrain=World.getTerrain();
+			enemies=World.getEnemy();
+			projectiles=World.getBullets();
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_UP){
 			up=false;
@@ -237,11 +230,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	private void updateBullets(){	
 		for(int i=0;i<projectiles.size();i++){
 			//TODO Map Scrolling
-			if(projectiles.get(i).getRect().x>getWidth()||projectiles.get(i).getRect().y>getHeight()||projectiles.get(i).getRect().x<0||projectiles.get(i).getRect().y<0){
-				projectiles.remove(i);
-				i--;
-			}
-			else if(projectiles.get(i).getRange()<=0){
+			if(projectiles.get(i).getRange()<=0){
 				projectiles.remove(i);
 				i--;
 			}
@@ -259,6 +248,11 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 
 	private void updateCollision(){
 		for(Terrain t:terrain){
+			if(t.getRect().intersects(ship.getRect())){
+				t.setDXY(ship.getDx()*ship.getSize(), ship.getDy()*ship.getSize());
+				ship.crash();
+//				t.setHealth(t.getHealth()-10);
+			}
 			for(Ship e: enemies){
 				if(t.getRect().intersects(e.getRect())){
 					t.setHealth(t.getHealth()-e.getHealth());
@@ -336,8 +330,8 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	
 	//Draws bullets
 	private void drawBullets(Graphics g){
-		for(Ammo i:projectiles){
-			i.draw(g);
+		for(int i=0;i<projectiles.size();i++){
+			projectiles.get(i).draw(g);
 		}
 	}
 	

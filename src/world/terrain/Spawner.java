@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.lang.reflect.Constructor;
 
+import world.World;
 import world.ship.BigWraith;
 import world.ship.Enemy;
 import world.ship.RingWraith;
@@ -45,10 +46,10 @@ public class Spawner extends Terrain{
 			return;
 		}
 		if(type==1){
-			enemies.add(new RingWraith(x,y+25));
+			World.getEnemy().add(new RingWraith(x,y+25));
 		}
 		else{
-			enemies.add(new BigWraith(x,y+25));
+			World.getEnemy().add(new BigWraith(x,y+25));
 		}
 		counter=0;
 	}

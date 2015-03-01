@@ -19,6 +19,17 @@ public class Grid {
 	public void draw(Graphics g, int cx, int cy){
 		drawGrid(g,cx,cy);
 		fillGrid(g,cx,cy);
+		
+		//PROTOTYPE SUN
+//		g.setColor(new Color(0,255,255,0.4));
+//		for(int i=0;i<125;i++){
+//			g.fillOval(500-i,400-i,i*2,i*2);
+//		}
+//		
+//		g.setColor(new Color(255,255,255,0.5));
+//		for(int i=0;i<40;i++){
+//			g.fillOval(500-i,400-i,i*2,i*2);
+//		}
 	}
 	
 	public void drawGrid(Graphics g, int cx, int cy){

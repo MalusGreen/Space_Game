@@ -19,7 +19,7 @@ public class MachineGun extends Weapon{
 	}
 	@Override
 	public Ammo fire(double x, double y, double angle) {
-		return new Bullet(x, y, angle);
+		return new Bullet(x+size*Math.cos(angle),y-size*Math.sin(angle), angle);
 	}
 	
 }

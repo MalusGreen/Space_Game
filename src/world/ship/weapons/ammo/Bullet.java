@@ -10,7 +10,7 @@ public class Bullet extends Ammo{
 	public Bullet(double x, double y, double angle){
 		super(x, y, angle, 6);
 		size=1;
-		range=1;
+		range=1000;
 		damage=1;
 	}
 	@Override
@@ -24,5 +24,6 @@ public class Bullet extends Ammo{
 	public void update() {
 		x+=dx;
 		y+=dy;
+		range--;
 	}
 }
