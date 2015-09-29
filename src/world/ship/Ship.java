@@ -143,7 +143,7 @@ public class Ship {
 		g.setColor(Color.red);
 		g.drawLine((int)(x-size*1.5), (int)y-6, (int)(x+size*1.5), (int)y-6);
 		g.setColor(Color.green);
-		g.drawLine((int)(x-size*1.5), (int)y-6, (int)((x-size*1.5)+3*size*health/100), (int)y-6);
+		g.drawLine((int)(x-size*1.5), (int)y-6, (int)((x-size*1.5)+3*size*health/MAXHEALTH), (int)y-6);
 	}
 	
 	//Accelerates in the var angle direction.
@@ -176,7 +176,7 @@ public class Ship {
 	}
 	
 	public void crash(){
-//		System.out.println("Ship: Temp Crash");
+		System.out.println("Ship: Temp Crash");
 		dx*=-0.5;
 		dy*=-0.5;
 		x+=dx*2;

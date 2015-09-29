@@ -17,8 +17,8 @@ public class Spawner extends Terrain{
 		this.x=x;
 		this.y=y;
 		this.size=8;
-		this.health=100;
-		this.MAXHEALTH=100;
+		this.health=20;
+		this.MAXHEALTH=20;
 		this.type=type;
 		counter=500;
 //		switch(type){
@@ -34,7 +34,11 @@ public class Spawner extends Terrain{
 	}
 	@Override
 	public void draw(Graphics g) {
-		g.setColor(new Color(255,0,255));
+		if(type==1)
+			g.setColor(new Color(255,0,255));
+		else
+			g.setColor(new Color(0,255,255));
+		
 		g.drawOval((int)x-size, (int)y-size, size*2, size*2);
 		g.setColor(new Color(255,25,255,50));
 		g.fillOval((int)x-size, (int)y-size, size*2, size*2);

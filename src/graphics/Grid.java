@@ -21,12 +21,12 @@ public class Grid {
 		fillGrid(g,cx,cy);
 		
 		//PROTOTYPE SUN
-//		g.setColor(new Color(0,255,255,0.4));
+//		g.setColor(new Color(0,255,255,20));
 //		for(int i=0;i<125;i++){
 //			g.fillOval(500-i,400-i,i*2,i*2);
 //		}
 //		
-//		g.setColor(new Color(255,255,255,0.5));
+//		g.setColor(new Color(255,255,255,40));
 //		for(int i=0;i<40;i++){
 //			g.fillOval(500-i,400-i,i*2,i*2);
 //		}

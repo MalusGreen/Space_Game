@@ -12,8 +12,8 @@ import world.terrain.Spawner;
 import world.terrain.Terrain;
 
 public class World {
-	Map[] sectors;
-	int system;
+	static Map[] sectors;
+	static int system;
 	public static ArrayList<Terrain> terrain;
 	public static ArrayList<Ship> enemies;
 	public static ArrayList<Ammo> bullets;
@@ -200,7 +200,9 @@ public class World {
 	
 	////////
 	////////
-	
+	public static Map getSystem(){
+		return sectors[system];
+	}
 	public static ArrayList<Terrain> getTerrain(){
 		return terrain;
 	}

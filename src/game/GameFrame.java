@@ -33,10 +33,10 @@ public class GameFrame extends JFrame implements ActionListener{
 		setLayout(cards);
 
 		menu=new Menu();
-		add(menu);
+//		add(menu);
 		
 		game=new Game();
-		add(game);
+//		add(game);
 		
 		//Menu
 		for(int i=0;i<menu.colors.length;i++){

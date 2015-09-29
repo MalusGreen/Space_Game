@@ -64,9 +64,8 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	
 	private void initVar(){
 		difficulty=1;
-		timer=new Timer(12,this);
+		timer=new Timer(10,this);
 		ship=new Ship(100,100,"Player");
-		
 	}
 	
 	private void initGraphics(){
@@ -103,7 +102,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			elapsed++;
 			if(end!=0&&elapsed==10){
 				elapsed=0;
-				FPS.setText("Difficulty Level: "+difficulty/5+"   FPS: "+1000000000/((end-start)/10));
+				FPS.setText("System: "+World.getSystem().getSystem()+"   FPS: "+1000000000/((end-start)/10));
 				start=end;
 			}
 			//Keypressed stuff.
@@ -159,6 +158,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_E){
 			timer.stop();
+			ship.setHealth(100);
 		}
 	}
 
@@ -251,7 +251,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 			if(t.getRect().intersects(ship.getRect())){
 				t.setDXY(ship.getDx()*ship.getSize(), ship.getDy()*ship.getSize());
 				ship.crash();
-//				t.setHealth(t.getHealth()-10);
+				t.setHealth(t.getHealth()-10);
 			}
 			for(Ship e: enemies){
 				if(t.getRect().intersects(e.getRect())){
@@ -318,8 +318,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		g.translate(cam.x,cam.y);
+		g.translate(cam.x/2,cam.y/2);
 		drawBackground(g);
+		g.translate(cam.x/2,cam.y/2);
 		drawEnemies(g);
 		drawBullets(g);
 		drawTerrain(g);

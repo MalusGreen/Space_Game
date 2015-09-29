@@ -28,16 +28,9 @@ public abstract class Terrain {
 	public void drawHealth(Graphics g){
 		g.setColor(Color.green);
 		g.drawLine((int)(x-size*1.5), (int)y-size-5, (int)(x+size*(3.0*health/MAXHEALTH-1.5)), (int)y-size-5);
-		if((int)(x+size*(3.0*health/MAXHEALTH-1.5))>1000){
-//			System.out.println("New Entry");
-//			System.out.println("Terrain.drawHealth(): X"+x);
-//			System.out.println("Terrain.drawHealth(): Size"+size);
-//			System.out.println("Terrain.drawHealth(): health"+health);
-//			System.out.println("Terrain.drawHealth(): MAXHEALTH"+MAXHEALTH);
-		}
 	}
 	public void setDXY(double x, double y){
-//		System.out.println("Terrain: Temp Crash");
+		System.out.println("Terrain: Temp Crash");
 		dx=x/size;
 		dy=y/size;
 	}

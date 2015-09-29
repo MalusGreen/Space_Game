@@ -76,6 +76,16 @@ public abstract class Ammo{
 	public double getY(){
 		return y;
 	}
+	public double getDx(){
+		return dx;
+	}
+	public double getDy(){
+		return dy;
+	}
+	public int getSize(){
+		return size;
+	}
+		
 	public Rectangle getRect(){
 		return new Rectangle((int)x,(int)y,size,size);
 	}
